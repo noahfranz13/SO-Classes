@@ -1,0 +1,54 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage[margin=1in, headsep=36pt]{geometry}
+\usepackage{hyperref}
+
+\def\title{Homework 1}
+\def\author{Noah Franz}
+\def\duedate{August 28, 2023}
+\def\class{ASTR513}
+
+\fancypagestyle{hdr}
+{
+    \fancyhead[L]{\fontsize{16}{18}\selectfont \author \\ Due Date: \duedate }
+    \fancyhead[R]{\fontsize{16}{18}\selectfont  \title \\ \class}
+}
+
+\begin{document}
+
+\thispagestyle{hdr}
+
+\section*{My Definitions of Statistics}
+\begin{enumerate}
+\item \textit{General:} Mathematical tools for summarizing data and quantifying uncertainty to help better understand and describe the real world.
+\item \textit{Specific to Astrophysics:} Mathematical tools that provide methods to describe uncertainty in observational data and connect it with theoretical astrophysical models.
+\end{enumerate}
+
+\section*{ChatGPT Definitions of Statistics}
+\begin{enumerate}
+\item \textit{General:}
+\begin{itemize}
+\item \textit{Prompt:} Give a general definition of statistics in 1-2 sentences
+\item \textit{Answer:} Statistics is the study of collecting, analyzing, interpreting, and presenting data to understand patterns, relationships, and trends within a given context.
+\end{itemize}
+\item \textit{Specific to Astrophysics:}
+\begin{itemize}
+\item \textit{Prompt:} Give a definition of statistics in the context of astrophysics in 1-2 sentences
+\item \textit{Answer:} In the context of astrophysics, statistics involves the application of mathematical techniques to analyze and interpret astronomical data, helping researchers uncover patterns, distributions, and relationships among celestial objects and phenomena within the universe.
+\end{itemize}
+\end{enumerate}
+
+\section*{Frequentist vs. Bayesian Statistics}
+The three primary differences between the frequentist and bayesian interpretations of statistics are \cite{bayes_vs_frequentist}:
+
+\begin{enumerate}
+    \item In bayesian statistics, the parameters are random variables that can be tuned to see the likelihood of the underlying hypothesis given prior knowledge and the data. In frequentist statistics the theoretical parameters are fixed and the data is a random subset of the true distribution.
+    \item Frequentist statistics uses confidence intervals to give a range that contains that percentage of observations when the experiment is repeated a large number of times. Bayesian statistics gives a a probability that the true value lies within the associated range of values.
+    \item Frequentist statistics uses p-value to describe the probability that the observation is extreme compared a set of similar observations. Bayesian statistics uses the probability that the theoretical model, or hypothesis, agrees with the data. In other words, Bayesian statistics allows the comparison of data and theoretical models while frequentist statistics only allows the rejection of a null-hypothesis.
+\end{enumerate}
+
+\bibliographystyle{plain}
+\bibliography{main}
+
+\end{document}
