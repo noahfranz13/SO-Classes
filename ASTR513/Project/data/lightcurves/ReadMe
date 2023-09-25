@@ -1,0 +1,21 @@
+================================================================================
+Title: Seventeen Tidal Disruption Events from the First Half of ZTF Survey 
+       Observations: Entering a New Era of Population Studies 
+Authors: van Velzen S., Gezari S., Hammerstein E., Roth N., Frederick S.,
+         Ward C., Hung T., Cenko S.B., Stein R., Perley D.A., Taggart K., 
+         Foley R.J., Sollerman J., Blagorodnova N., Andreoni I., Bellm E.C.,
+         Brinnel V., De K., Dekany R., Feeney M., Fremling C., Giomi M.,
+         Golkhou V.Z., Graham M.J., Ho A.Y.Q., Kasliwal M.M., Kilpatrick C.D.,
+         Kulkarni S.R., Kupfer T., Laher R.R., Mahabal A., Masci F.J., 
+         Miller A.A., Nordin J., Riddle R., Rusholme B., van Santen J., 
+         Sharma Y., Shupe D.L., Soumagnac M.T. 
+================================================================================
+Description of contents: A machine readable table containing the data behind
+ Figure 13 and 14 and a python script to read these files.
+
+System requirements: The data is in the standard machine readable format
+ but authors may also use the python script.
+
+Additional comments: None.
+
+================================================================================

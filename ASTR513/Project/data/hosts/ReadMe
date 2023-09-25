@@ -1,0 +1,42 @@
+================================================================================
+Title: Seventeen Tidal Disruption Events from the First Half of ZTF Survey 
+       Observations: Entering a New Era of Population Studies 
+Authors: van Velzen S., Gezari S., Hammerstein E., Roth N., Frederick S.,
+         Ward C., Hung T., Cenko S.B., Stein R., Perley D.A., Taggart K., 
+         Foley R.J., Sollerman J., Blagorodnova N., Andreoni I., Bellm E.C.,
+         Brinnel V., De K., Dekany R., Feeney M., Fremling C., Giomi M.,
+         Golkhou V.Z., Graham M.J., Ho A.Y.Q., Kasliwal M.M., Kilpatrick C.D.,
+         Kulkarni S.R., Kupfer T., Laher R.R., Mahabal A., Masci F.J., 
+         Miller A.A., Nordin J., Riddle R., Rusholme B., van Santen J., 
+         Sharma Y., Shupe D.L., Soumagnac M.T. 
+================================================================================
+Description of contents: Seventeen .json tables containing the host galaxy 
+ population synthesis for the ZTF sources. The files are ZRFID_host.json.
+
+System requirements: A JSON reader would be helpful but the data can be 
+ extracted for each parameter. A given parameter consists of its median of 
+ the posterior distribution followed by the distance to the 15.95% and 84.05% 
+ credible interval (i.e., these are your typical -/+ 1-sigma uncertainty).
+ 
+ To read in Python:
+
+>> import json
+>> hostinfo = json.load(open("ZTFID_host.json", 'r'))
+
+ where "ZTFID_host.json" is the particular file to be read.
+
+Additional comments: First five keys ("mass","logzsol", "dust2", "tage", and 
+ "tau") correspond to the best-fit FSPS parameters (see also Table 5 of the 
+ paper).
+
+ The next keys contain the host galaxy flux in various filters. We first list 
+ the observed magnitude, followed by the k-corrected magnitude (indicated with 
+ ".0" at the end of the key name). We also give the rest-frame "u-r" and 
+ "NUV-r" color. All magnitudes have been corrected for Galactic extinction.
+
+ The final keys are "A_nu" for the best-fit galaxy model and the extinction, 
+ "E(B-V)". The product of these parameters yields the total Galactic extinction 
+ in magnitude units for each filter.
+ 
+
+================================================================================
