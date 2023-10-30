@@ -9,4 +9,4 @@
 #SBATCH -e %j.err
 #SBATCH -o %j.out
 
-python3 run_prospector.py --file $1
+python3 run_prospector.py --file $1 --outfile $2
