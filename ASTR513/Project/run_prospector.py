@@ -12,11 +12,12 @@ from prospect.utils.obsutils import fix_obs
 from prospect.fitting import fit_model
 from prospect.io import write_results as writer
 from sedpy.observate import Filter, load_filters
+'''
+As a note to self:
 
 run_params = {'verbose': True,
               'debug': False,
-              'outfile': 'test',
-              'output_pickles': False,
+              'output_pickles': True,
               # Optimization parameters
               'do_powell': False,
               'ftol': 0.5e-5,
@@ -24,21 +25,21 @@ run_params = {'verbose': True,
               'do_levenberg': True,
               'nmin': 10,
               # emcee fitting parameters
-              'nwalkers': 128,
+              'nwalkers': 100,
               'nburn': [500],
-              'niter': 1000,
+              'niter': 500,
               'interval': 0.25,
               'initial_disp': 0.1,
               # Obs data parameters
               'objid': 0,
-              'phottable': 'demo_photometry.dat',
-              'luminosity_distance': 1e-5,  # in Mpc
+              #'luminosity_distance': 1e-5,  # in Mpc
               # Model parameters
               'add_neb': False,
               'add_duste': False,
               # SPS parameters
               'zcontinuous': 1,
               }
+'''
 
 def build_model(object_redshift=0.0, fixed_metallicity=None, add_duste=False,
                 add_neb=False, luminosity_distance=0.0, **extras):
@@ -72,6 +73,12 @@ def build_model(object_redshift=0.0, fixed_metallicity=None, add_duste=False,
     # view the parameters, their initial values, and the priors in detail.
     model_params = TemplateLibrary["parametric_sfh"]
 
+    # use Chabrier IMF instead of The default Kroupa IMF
+    model_params['imf_type']['init'] = 1 # default is 2, we want 1
+
+    # Use the Calzetti et al. dust model
+    model_params['dust_type']['init'] = 2 # default is 0, calzetti is 2
+        
     # Add lumdist parameter.  If this is not added then the distance is
     # controlled by the "zred" parameter and a WMAP9 cosmology.
     if luminosity_distance > 0:
@@ -79,10 +86,11 @@ def build_model(object_redshift=0.0, fixed_metallicity=None, add_duste=False,
                                    "init": luminosity_distance, "units":"Mpc"}
 
     # Adjust model initial values (only important for optimization or emcee)
-    model_params["dust2"]["init"] = 0.1
+    model_params["dust2"]["init"] = 0.4
     model_params["logzsol"]["init"] = -0.3
-    model_params["tage"]["init"] = 13.
-    model_params["mass"]["init"] = 1e8
+    model_params["tage"]["init"] = 5e9 # Gyrs
+    model_params["mass"]["init"] = 1e10
+    model_params["tau"]["init"] = 1
 
     # If we are going to be using emcee, it is useful to provide an
     # initial scale for the cloud of walkers (the default is 0.1)
@@ -90,13 +98,11 @@ def build_model(object_redshift=0.0, fixed_metallicity=None, add_duste=False,
     model_params["mass"]["init_disp"] = 1e7
     model_params["tau"]["init_disp"] = 3.0
     model_params["tage"]["init_disp"] = 5.0
-    model_params["tage"]["disp_floor"] = 2.0
-    model_params["dust2"]["disp_floor"] = 0.1
-
+    
     # adjust priors
-    model_params["tage"]["prior"] = priors.LogUniform(mini=1e8, maxi=10**(10.1))
+    model_params["tage"]["prior"] = priors.LogUniform(mini=(1e8/1e9), maxi=(10**(10.1)/1e9)) # 0.1 to 12.6 Gyr
     model_params["dust2"]["prior"] = priors.TopHat(mini=0.0, maxi=1.0)
-    model_params["tau"]["prior"] = priors.LogUniform(mini=1e8, maxi=1e10)
+    model_params["tau"]["prior"] = priors.LogUniform(mini=1e-1, maxi=1e1) # 0.1 - 10 Gyr
     model_params["mass"]["prior"] = priors.LogUniform(mini=1e8, maxi=1e12)
     model_params["logzsol"]["prior"] = priors.TopHat(mini=-1.8, maxi=0.2)
 
@@ -122,11 +128,11 @@ def build_model(object_redshift=0.0, fixed_metallicity=None, add_duste=False,
         model_params.update(TemplateLibrary["nebular"])
 
     # Now instantiate the model using this new dictionary of parameter specifications
-    model = sedmodel.SedModel(model_params)
+    model = sedmodel.SpecModel(model_params)
 
     return model
 
-def build_obs(data, tdename=None):
+def build_obs(data, tdename=None, **extras):
     """Load photometry from an ascii file.  Assumes the following columns:
     `objid`, `filterset`, [`mag0`,....,`magN`] where N >= 11.  The User should
     modify this function (including adding keyword arguments) to read in their
@@ -175,7 +181,8 @@ def build_obs(data, tdename=None):
 def build_sps(zcontinuous=1, compute_vega_mags=False, **extras):
     from prospect.sources import CSPSpecBasis
     sps = CSPSpecBasis(zcontinuous=zcontinuous,
-                       compute_vega_mags=compute_vega_mags)
+                       compute_vega_mags=compute_vega_mags,
+                       **extras)
     return sps
 
 def build_noise(**extras):
@@ -190,6 +197,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--file', required=True)
     p.add_argument('--outfile', required=False, default=None)
+    p.add_argument('--niters', required=False, default=500)
     p.add_argument('--mp', dest='mp', action='store_true')
     p.set_defaults(mp=False)
     args = p.parse_args()
@@ -201,8 +209,17 @@ def main():
     # prep to run prospector
     tdename = args.file.split('/')[-1].split('.')[0]
     
-    params = {'data':j,
-              'tdename': tdename}
+    params = {
+        # general parameters
+        'verbose': True,
+        'data':j,
+        'tdename': tdename,
+        # for emcee
+        'nwalkers': 100,
+        'nburn': [500],
+        'niter': args.niters,
+    }
+    
     obs, model, sps, noise = build_all(**params)
 
     if args.outfile is None:
@@ -210,19 +227,21 @@ def main():
     else:
         outpath = args.outfile
 
+    print(model)
+        
     # run prospector
     if args.mp:
         print('using mp')
         with Pool() as pool:
-            output = fit_model(obs, model, sps, noise, dynesty=False, emcee=True, pool=pool, **run_params) #  
+            output = fit_model(obs, model, sps, noise, dynesty=False, emcee=True, pool=pool, **params)  
     else:
         print('not using mp')
-        output = fit_model(obs, model, sps, noise, dynesty=False, emcee=True, **run_params) #  
+        output = fit_model(obs, model, sps, noise, dynesty=False, emcee=True, **params)  
     
     ts = time.strftime("%y%b%d-%H.%M", time.localtime())
     hfile = "{0}_{1}_result.h5".format(tdename, ts)
 
-    writer.write_hdf5(hfile, run_params, model, obs,
+    writer.write_hdf5(hfile, params, model, obs,
                       output["sampling"][0], output["optimization"][0],
                       tsample=output["sampling"][1],
                       toptimize=output["optimization"][1],
