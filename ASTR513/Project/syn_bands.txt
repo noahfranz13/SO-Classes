@@ -1,0 +1,13 @@
+galex_FUV
+galex_NUV
+sdss_g0
+sdss_i0
+sdss_r0
+sdss_u0
+sdss_z0
+uvot_b
+uvot_u
+uvot_m2
+uvot_w1
+uvot_w2
+uvot_v
