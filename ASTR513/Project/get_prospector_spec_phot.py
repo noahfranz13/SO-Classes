@@ -159,6 +159,7 @@ def main():
         outdir = args.outdir
 
     outpath = os.path.join(outdir, name+'.json')
+    
     with open(outpath, 'w') as f:
         json.dump(forfile, f, indent=4)
     
