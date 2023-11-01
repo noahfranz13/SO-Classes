@@ -1,0 +1,24 @@
+:::::::
+<class 'prospect.models.sedmodel.SpecModel'>
+
+Free Parameters: (name: prior) 
+-----------
+  mass: <class 'prospect.models.priors.LogUniform'>(mini=100000000.0,maxi=1000000000000.0)
+  logzsol: <class 'prospect.models.priors.TopHat'>(mini=-1.8,maxi=0.2)
+  dust2: <class 'prospect.models.priors.TopHat'>(mini=0.0,maxi=1.0)
+  tage: <class 'prospect.models.priors.LogUniform'>(mini=0.1,maxi=12.589254117941662)
+  tau: <class 'prospect.models.priors.LogUniform'>(mini=0.1,maxi=10.0)
+
+Fixed Parameters: (name: value [, depends_on]) 
+-----------
+  zred: [0.1] 
+  sfh: [4] 
+  imf_type: [1] 
+  dust_type: [2] 
+not using mp
+number of walkers=100
+done burn #0 (500 iterations)
+number of walkers=100
+starting production
+done production
+Detailed performance metrics for this job will be available at https://metrics.hpc.arizona.edu/#job_viewer?action=show&realm=SUPREMM&resource_id=73&local_job_id=8493774 by 8am on 2023/11/01.

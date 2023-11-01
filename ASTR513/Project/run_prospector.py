@@ -2,6 +2,7 @@
 Script to run prospector on a give json file
 '''
 import os, sys, glob, json, time
+from warnings import warn
 from multiprocessing import Pool, cpu_count
 import numpy as np
 import pandas as pd
@@ -196,7 +197,7 @@ def build_all(**kwargs):
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('--file', required=True)
-    p.add_argument('--outfile', required=False, default=None)
+    p.add_argument('--outdir', required=False, default=None)
     p.add_argument('--niters', required=False, default=500)
     p.add_argument('--mp', dest='mp', action='store_true')
     p.set_defaults(mp=False)
@@ -222,10 +223,15 @@ def main():
     
     obs, model, sps, noise = build_all(**params)
 
-    if args.outfile is None:
-        outpath = args.file.split('.')[0] + '.h5'
+    if args.outdir is None:
+        outdir = os.getcwd()
     else:
-        outpath = args.outfile
+        outdir = args.outdir
+        
+    hfile = os.path.join(outdir, "{0}_result.h5".format(tdename))
+    if os.path.exists(hfile):
+        warn('Output file already exists! Not running!')
+        return
 
     print(model)
         
@@ -238,9 +244,6 @@ def main():
         print('not using mp')
         output = fit_model(obs, model, sps, noise, dynesty=False, emcee=True, **params)  
     
-    ts = time.strftime("%y%b%d-%H.%M", time.localtime())
-    hfile = "{0}_{1}_result.h5".format(tdename, ts)
-
     writer.write_hdf5(hfile, params, model, obs,
                       output["sampling"][0], output["optimization"][0],
                       tsample=output["sampling"][1],

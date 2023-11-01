@@ -1,0 +1,21 @@
+name: runProspector
+channels:
+   - defaults
+dependencies:
+   # Core requirements
+   - python=3.11
+   - pip
+   # Other packages
+   - pandas=1.4.3
+   - numpy=1.22.3
+   - scipy
+   - matplotlib
+   - astropy
+   # pip install
+   - pip:
+     - emcee
+     - dynesty
+     - astro-sedpy
+     - corner
+     - astro-prospector
+     - fsps
