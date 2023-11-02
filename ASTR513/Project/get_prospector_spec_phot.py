@@ -138,6 +138,9 @@ def main():
         all_phot[filt] = phot[i].tolist()
     for i, filt in enumerate(new_filts):
         all_phot[filt.name] = new_phot[i].tolist()
+        
+    # compute the u-r color
+    all_phot['u_r'] = -np.emath.logn(2.51, np.array(all_phot['sdss_u0']) / np.array(all_phot['sdss_r0']))
 
     # derive the mean and 1sigma values for each band
     for filt, data in all_phot.items():
