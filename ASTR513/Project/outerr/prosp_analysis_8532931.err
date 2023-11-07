@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/u7/nfranz/SO-Classes/ASTR513/Project/get_prospector_spec_phot.py", line 170, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/u7/nfranz/SO-Classes/ASTR513/Project/get_prospector_spec_phot.py", line 84, in main
+    model = build_model(**res) #reader.get_model(res)
+            ^^^^^^^^^^^^^^^^^^
+  File "/home/u7/nfranz/SO-Classes/ASTR513/Project/prospector_params.py", line 69, in build_model
+    raise ValueError('object_redshift is missing!!')
+ValueError: object_redshift is missing!!

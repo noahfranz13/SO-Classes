@@ -81,6 +81,7 @@ def main():
     res['obs']['filters'] = load_filters(res['obs']['filternames'])
     
     if model is None:
+        res['object_redshift'] = res['obs']['redshift']
         model = build_model(**res) #reader.get_model(res)
     
     # extract the redshift
