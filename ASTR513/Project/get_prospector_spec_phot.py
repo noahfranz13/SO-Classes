@@ -89,8 +89,8 @@ def main():
         i_z = np.where(free_params == 'zred')[0][0]
     else:
         free_z = False
-        z = 0 # just find rest values
-        #z = model.init_config['zred']['init']
+        # z = 0 # just find rest values
+        z = model.init_config['zred']['init']
     
     # And get the FSPS object
     sps = build_sps(**res) #reader.get_sps(res)
