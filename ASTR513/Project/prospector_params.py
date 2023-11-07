@@ -43,7 +43,7 @@ run_params = {'verbose': True,
               }
 '''
 
-def build_model(object_redshift=0.0, fixed_metallicity=None, add_duste=False,
+def build_model(object_redshift=None, fixed_metallicity=None, add_duste=False,
                 add_neb=False, luminosity_distance=0.0, **extras):
     """Construct a model.  This method defines a number of parameter
     specification dictionaries and uses them to initialize a
@@ -65,6 +65,9 @@ def build_model(object_redshift=0.0, fixed_metallicity=None, add_duste=False,
         distance, and fit, e.g., absolute magnitudes (by setting
         luminosity_distance to 1e-5 (10pc))
     """
+    if object_redshift is None:
+        raise ValueError('object_redshift is missing!!')
+    
     # --- Get a basic delay-tau SFH parameter set. ---
     # This has 5 free parameters:
     #   "mass", "logzsol", "dust2", "tage", "tau"
@@ -94,6 +97,10 @@ def build_model(object_redshift=0.0, fixed_metallicity=None, add_duste=False,
     model_params["mass"]["init"] = 1e10
     model_params["tau"]["init"] = 1
 
+    # give it a redshift
+    model_params["zred"]['isfree'] = False
+    model_params["zred"]['init'] = object_redshift
+    
     # If we are going to be using emcee, it is useful to provide an
     # initial scale for the cloud of walkers (the default is 0.1)
     # For dynesty these can be skipped

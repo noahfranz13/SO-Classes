@@ -41,6 +41,7 @@ def main():
         'nwalkers': 100,
         'nburn': [500],
         'niter': args.niters,
+        'object_redshift': j['redshift']
     }
     
     obs, model, sps, noise = build_all(**params)
@@ -55,8 +56,6 @@ def main():
         warn('Output file already exists! Not running!')
         return
 
-    print(model)
-        
     # run prospector
     if args.mp:
         print('using mp')
