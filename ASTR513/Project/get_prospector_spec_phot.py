@@ -80,70 +80,83 @@ def main():
     # Fix the filters so they're compatible with sedpy - you may not need to do
     # this, I have some problem with pickling
     res['obs']['filters'] = load_filters(res['obs']['filternames'])
+
+    all_phot = {}
+    for filt in res['obs']['filternames'] + args.filts:
+        all_phot[filt] = []
+        all_phot[filt+'.0'] = []
+
+    for redshift in [0, res['run_params']['data']['redshift']]:
+        if model is None:
+            res['object_redshift'] = redshift
+            model = build_model(**res) #reader.get_model(res)
+            
+        # extract the redshift
+        if 'zred' in free_params:
+            free_z = True
+            i_z = np.where(free_params == 'zred')[0][0]
+        else:
+            free_z = False
+            # z = 0 # just find rest values
+            z = model.init_config['zred']['init']
     
-    if model is None:
-        res['object_redshift'] = res['run_params']['data']['redshift']
-        model = build_model(**res) #reader.get_model(res)
-    
-    # extract the redshift
-    if 'zred' in free_params:
-        free_z = True
-        i_z = np.where(free_params == 'zred')[0][0]
-    else:
-        free_z = False
-        # z = 0 # just find rest values
-        z = model.init_config['zred']['init']
-    
-    # And get the FSPS object
-    sps = build_sps(**res) #reader.get_sps(res)
+        # And get the FSPS object
+        sps = build_sps(**res) #reader.get_sps(res)
 
-    # Set up the new filters with sedpy so I can calculate photometry
-    # First make sure there are no duplicates between the new filters and the
-    # filters already in the result file
-    new_filts = np.unique(np.setdiff1d(args.filts, res['obs']['filternames']))
-    
-    # Actually do sedpy now
-    new_filts = load_filters(new_filts)
+        # Set up the new filters with sedpy so I can calculate photometry
+        # First make sure there are no duplicates between the new filters and the
+        # filters already in the result file
+        new_filts = np.unique(np.setdiff1d(args.filts, res['obs']['filternames']))
+        
+        # Actually do sedpy now
+        new_filts = load_filters(new_filts)
+        
+        # Sample some parameter vectors from the chain, generate spectra for
+        # each of them with lines, and generate model photometry with sedpy
+        thetas = sample_posterior(res.get('chain'),
+                                  weights=res.get('weights', None),
+                                  nsample=args.n_spec)
 
-    # Sample some parameter vectors from the chain, generate spectra for
-    # each of them with lines, and generate model photometry with sedpy
-    thetas = sample_posterior(res.get('chain'),
-                              weights=res.get('weights', None),
-                              nsample=args.n_spec)
+        # Figure out the appropriate redshift to use and redshift the
+        # wavelength array
+        
+        if free_z:
+            zarr = thetas[:,i_z]
+        else:
+            zarr = [z]*args.n_spec
 
-    # Figure out the appropriate redshift to use and redshift the
-    # wavelength array
+        # package this data to pass to multiprocessing
+        input_data = list(zip(thetas, zarr))
+        
+        # multiprocess (or not)
+        if args.mp > 1:
+            with Pool(args.mp) as p:
+                out = p.map(_predict_single, input_data)
+        else:
+            out = [_predict_single(row) for row in input_data]
 
-    if free_z:
-        zarr = thetas[:,i_z]
-    else:
-        zarr = [z]*args.n_spec
+        # unpack the outputs
+        phot, new_phot, all_spec_wls, all_specs = list(zip(*out))
 
-    # package this data to pass to multiprocessing
-    input_data = list(zip(thetas, zarr))
+        phot, new_phot = list(np.array(phot).T), list(np.array(new_phot).T)
+        
+        # Add the photometry to the dictionary
 
-    # multiprocess (or not)
-    if args.mp > 1:
-        with Pool(args.mp) as p:
-            out = p.map(_predict_single, input_data)
-    else:
-        out = [_predict_single(row) for row in input_data]
-
-    # unpack the outputs
-    phot, new_phot, all_spec_wls, all_specs = list(zip(*out))
-
-    phot, new_phot = list(np.array(phot).T), list(np.array(new_phot).T)
-    
-    all_phot = {filt: [] for filt in res['obs']['filternames'] + args.filts}
-    # Add the photometry to the dictionary
-    for i, filt in enumerate(res['obs']['filternames']):
-        all_phot[filt] = phot[i].tolist()
-    for i, filt in enumerate(new_filts):
-        all_phot[filt.name] = new_phot[i].tolist()
+        if redshift == 0:
+            a = '.0'
+        else:
+            a = ''
+        
+        for i, filt in enumerate(res['obs']['filternames']):
+            all_phot[filt+a] = phot[i].tolist()
+        for i, filt in enumerate(new_filts):
+            all_phot[filt.name+a] = new_phot[i].tolist()
         
     # compute the u-r color
     all_phot['u_r'] = -np.emath.logn(2.51, np.array(all_phot['sdss_u0']) / np.array(all_phot['sdss_r0']))
-
+    all_phot['u_r.0'] = -np.emath.logn(2.51, np.array(all_phot['sdss_u0.0']) / np.array(all_phot['sdss_r0.0']))
+    
+    print(all_phot)
     # derive the mean and 1sigma values for each band
     for filt, data in all_phot.items():
         middle = 0.5 
