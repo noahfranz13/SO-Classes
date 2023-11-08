@@ -72,7 +72,8 @@ def main():
     # Read in the Prospector file and sort out the free parameters
     res, obs, model = reader.results_from(prospector_file)
     free_params = np.array(res.get('theta_labels'))
-
+    print(res, obs, model)
+    print()
     # add a param file to the res object
     res['run_params']['param_file'] = 'prospector_params.py'
     
@@ -81,7 +82,7 @@ def main():
     res['obs']['filters'] = load_filters(res['obs']['filternames'])
     
     if model is None:
-        res['object_redshift'] = res['obs']['redshift']
+        res['object_redshift'] = res['run_params']['data']['redshift']
         model = build_model(**res) #reader.get_model(res)
     
     # extract the redshift
