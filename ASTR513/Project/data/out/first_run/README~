@@ -1,0 +1,7 @@
+# PARAMS
+params = {
+'nwalkers': 100,
+'nburn': [500],
+'niter': 1000,
+'object_redshift': j['redshift']
+}
