@@ -1,0 +1,29 @@
+/home/u7/nfranz/.conda/envs/runProspector/lib/python3.11/site-packages/prospect/models/priors.py:117: RuntimeWarning: divide by zero encountered in log
+  lnp = np.log(p)
+Traceback (most recent call last):
+  File "/home/u7/nfranz/SO-Classes/ASTR513/Project/run_prospector.py", line 75, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/u7/nfranz/SO-Classes/ASTR513/Project/run_prospector.py", line 66, in main
+    output = fit_model(obs, model, sps, noise, dynesty=False, emcee=True, **params)  
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/u7/nfranz/.conda/envs/runProspector/lib/python3.11/site-packages/prospect/fitting/fitting.py", line 258, in fit_model
+    output["sampling"] = run_sampler(obs, model, sps, noise,
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/u7/nfranz/.conda/envs/runProspector/lib/python3.11/site-packages/prospect/fitting/fitting.py", line 461, in run_emcee
+    out = meth(lnprobfn, q, model, hdf5=hfile,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/u7/nfranz/.conda/envs/runProspector/lib/python3.11/site-packages/prospect/fitting/ensemble.py", line 111, in run_emcee_sampler
+    esampler = restart_emcee_sampler(lnprobfn, initial, niter=niter, verbose=verbose,
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/u7/nfranz/.conda/envs/runProspector/lib/python3.11/site-packages/prospect/fitting/ensemble.py", line 142, in restart_emcee_sampler
+    esampler = emcee_production(esampler, initial, niter, pool=pool,
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/u7/nfranz/.conda/envs/runProspector/lib/python3.11/site-packages/prospect/fitting/ensemble.py", line 185, in emcee_production
+    for i, result in enumerate(esampler.sample(initial, **mc_args)):
+  File "/home/u7/nfranz/.conda/envs/runProspector/lib/python3.11/site-packages/emcee/ensemble.py", line 379, in sample
+    self.backend.grow(iterations, state.blobs)
+  File "/home/u7/nfranz/.conda/envs/runProspector/lib/python3.11/site-packages/emcee/backends/backend.py", line 174, in grow
+    i = ngrow - (len(self.chain) - self.iteration)
+        ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TypeError: unsupported operand type(s) for -: 'str' and 'int'

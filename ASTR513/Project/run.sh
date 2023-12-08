@@ -2,7 +2,7 @@
 for name in $(cat data/names.txt);
 do
     INPATH=data/hostdata/$name
-    OUTPATH=data/out/second_run
+    OUTPATH=data/out/third_run
     
     echo $INPATH $OUTPATH
     sbatch run_prospector.slurm $INPATH $OUTPATH

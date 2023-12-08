@@ -39,8 +39,8 @@ def main():
         'tdename': tdename,
         # for emcee
         'nwalkers': 100,
-        'nburn': [500],
-        'niter': args.niters,
+        'nburn': [int(args.niters)//2],
+        'niter': int(args.niters)//2,
         'object_redshift': j['redshift']
     }
     

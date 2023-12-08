@@ -1,0 +1,3 @@
+/home/u7/nfranz/.conda/envs/runProspector/lib/python3.11/site-packages/prospect/models/priors.py:117: RuntimeWarning: divide by zero encountered in log
+  lnp = np.log(p)
+Dec 06 17:49:46.309751 84001 slurmstepd   0x2ab7f370b700: error: *** JOB 8714399 ON r2u14n2 CANCELLED AT 2023-12-06T17:49:46 DUE TO TIME LIMIT ***

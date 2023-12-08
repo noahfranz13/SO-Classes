@@ -1,0 +1,8 @@
+/home/u7/nfranz/.conda/envs/runProspector/lib/python3.11/site-packages/prospect/models/priors.py:117: RuntimeWarning: divide by zero encountered in log
+  lnp = np.log(p)
+/home/u7/nfranz/.conda/envs/runProspector/lib/python3.11/site-packages/prospect/io/write_results.py:60: RuntimeWarning: Could not store paramfile text
+  warnings.warn("Could not store paramfile text", RuntimeWarning)
+/home/u7/nfranz/.conda/envs/runProspector/lib/python3.11/site-packages/prospect/io/write_results.py:290: RuntimeWarning: Could not JSON serialize model_params, pickled instead
+  warnings.warn("Could not JSON serialize {}, pickled instead".format(k),
+/home/u7/nfranz/.conda/envs/runProspector/lib/python3.11/site-packages/prospect/io/write_results.py:49: RuntimeWarning: Could not obtain prospector version info
+  warnings.warn("Could not obtain prospector version info", RuntimeWarning)
