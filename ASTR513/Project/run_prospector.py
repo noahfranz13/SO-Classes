@@ -20,7 +20,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument('--file', required=True)
     p.add_argument('--outdir', required=False, default=None)
-    p.add_argument('--niters', required=False, default=500)
+    p.add_argument('--niters', required=False, default=1000)
     p.add_argument('--mp', dest='mp', action='store_true')
     p.set_defaults(mp=False)
     args = p.parse_args()
