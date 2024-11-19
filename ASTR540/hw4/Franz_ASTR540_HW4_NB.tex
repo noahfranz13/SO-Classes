@@ -1,0 +1,1438 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Franz\_ASTR540\_HW4\_NB}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \section{ASTR540 Homework 4}\label{astr540-homework-4}
+
+Noah Franz
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{warnings}
+\PY{k+kn}{from} \PY{n+nn}{functools} \PY{k+kn}{import} \PY{n}{partial}
+\PY{k+kn}{from} \PY{n+nn}{copy} \PY{k+kn}{import} \PY{n}{deepcopy}
+
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+
+\PY{k+kn}{from} \PY{n+nn}{astropy}\PY{n+nn}{.}\PY{n+nn}{coordinates} \PY{k+kn}{import} \PY{n}{SkyCoord}
+\PY{k+kn}{from} \PY{n+nn}{astropy} \PY{k+kn}{import} \PY{n}{units} \PY{k}{as} \PY{n}{u}
+\PY{k+kn}{from} \PY{n+nn}{astropy} \PY{k+kn}{import} \PY{n}{constants} \PY{k}{as} \PY{n}{c}
+\PY{k+kn}{from} \PY{n+nn}{astropy}\PY{n+nn}{.}\PY{n+nn}{table} \PY{k+kn}{import} \PY{n}{vstack}
+
+\PY{k+kn}{from} \PY{n+nn}{astroquery}\PY{n+nn}{.}\PY{n+nn}{gaia} \PY{k+kn}{import} \PY{n}{Gaia}
+\PY{k+kn}{from} \PY{n+nn}{astroquery}\PY{n+nn}{.}\PY{n+nn}{sdss} \PY{k+kn}{import} \PY{n}{SDSS}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \subsection{Problem 1}\label{problem-1}
+
+Proper Motion of Bo ̈otes III. Let's revisit the proper motion of the
+disrupting satellite Bo ̈otes III, as discussed in Carlin \& Sand 2018.
+Since that study, there has been the 3rd data release of Gaia (Gaia
+DR3), so it is possible that there are more proper motion members in the
+catalog, and that the overall uncertainties have improved.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\item
+  First, go to Table 1 of the Carlin paper, which displays all of the
+  `radial velocity confirmed' members of Bo ̈otes III, and make your own
+  table with updated proper motion values.
+\item
+  By how much have the uncertainties going from Gaia DR2 to Gaia DR3
+  improved? Have there been any large changes in proper motion for any
+  of these stars (\textgreater5σ)? \textbar{}
+\item
+  Calculate your own error-weighted proper motion to Bo ̈otes III,
+  compare it with the DR2 value, and make a plot similar to Figure 1 of
+  the paper.
+\item
+  Try to identify further proper motion members in Bo ̈otes III, as
+  described in Section 2.3 of the paper. Do the improved measurements of
+  Gaia DR3 lead to more plausible proper motion members of Bo ̈otes III?
+\end{enumerate}
+
+\subsubsection{Problem 1a}\label{problem-1a}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} read in the Table 1 data from Carin \PYZam{} Sand (2018)}
+\PY{n}{data\PYZus{}dr2} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Carlin\PYZus{}and\PYZus{}Sand\PYZus{}2018\PYZus{}Table1.txt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{sep}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}t}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} and then clean it up}
+\PY{n}{data\PYZus{}dr2} \PY{o}{=} \PY{n}{data\PYZus{}dr2}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{n}{how}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{all}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+
+\PY{n}{data\PYZus{}dr2} \PY{o}{=} \PY{n}{data\PYZus{}dr2}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{p}{\PYZob{}}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{cdots}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{np}\PY{o}{.}\PY{n}{nan}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{N}\PY{l+s+s2}{\PYZdq{}} \PY{p}{:} \PY{k+kc}{False}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Y}\PY{l+s+s2}{\PYZdq{}} \PY{p}{:} \PY{k+kc}{True}
+\PY{p}{\PYZcb{}}\PY{p}{)}
+
+\PY{n}{data\PYZus{}dr2}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{v\PYZus{}helio\PYZus{}err}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{v}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ +or\PYZhy{} }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]} \PY{k}{if} \PY{o+ow}{not} \PY{n}{pd}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{n}{v}\PY{p}{)} \PY{k}{else} \PY{n}{v} \PY{k}{for} \PY{n}{v} \PY{o+ow}{in} \PY{n}{data\PYZus{}dr2}\PY{o}{.}\PY{n}{v\PYZus{}helio}\PY{p}{]}
+\PY{n}{data\PYZus{}dr2}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{v\PYZus{}helio}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{v}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ +or\PYZhy{} }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{k}{if} \PY{o+ow}{not} \PY{n}{pd}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{n}{v}\PY{p}{)} \PY{k}{else} \PY{n}{v} \PY{k}{for} \PY{n}{v} \PY{o+ow}{in} \PY{n}{data\PYZus{}dr2}\PY{o}{.}\PY{n}{v\PYZus{}helio}\PY{p}{]}
+
+\PY{n}{data\PYZus{}dr2}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mu\PYZus{}alpha\PYZus{}err}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{v}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ +or\PYZhy{} }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}  \PY{k}{if} \PY{o+ow}{not} \PY{n}{pd}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{n}{v}\PY{p}{)} \PY{k}{else} \PY{n}{v} \PY{k}{for} \PY{n}{v} \PY{o+ow}{in} \PY{n}{data\PYZus{}dr2}\PY{o}{.}\PY{n}{mu\PYZus{}alpha}\PY{p}{]}
+\PY{n}{data\PYZus{}dr2}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mu\PYZus{}alpha}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{v}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ +or\PYZhy{} }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}  \PY{k}{if} \PY{o+ow}{not} \PY{n}{pd}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{n}{v}\PY{p}{)} \PY{k}{else} \PY{n}{v} \PY{k}{for} \PY{n}{v} \PY{o+ow}{in} \PY{n}{data\PYZus{}dr2}\PY{o}{.}\PY{n}{mu\PYZus{}alpha}\PY{p}{]}
+
+\PY{n}{data\PYZus{}dr2}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mu\PYZus{}delta\PYZus{}err}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{v}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ +or\PYZhy{} }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}  \PY{k}{if} \PY{o+ow}{not} \PY{n}{pd}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{n}{v}\PY{p}{)} \PY{k}{else} \PY{n}{v} \PY{k}{for} \PY{n}{v} \PY{o+ow}{in} \PY{n}{data\PYZus{}dr2}\PY{o}{.}\PY{n}{mu\PYZus{}delta}\PY{p}{]}
+\PY{n}{data\PYZus{}dr2}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mu\PYZus{}delta}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{p}{[}\PY{n}{v}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ +or\PYZhy{} }\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}  \PY{k}{if} \PY{o+ow}{not} \PY{n}{pd}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{n}{v}\PY{p}{)} \PY{k}{else} \PY{n}{v} \PY{k}{for} \PY{n}{v} \PY{o+ow}{in} \PY{n}{data\PYZus{}dr2}\PY{o}{.}\PY{n}{mu\PYZus{}delta}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data\PYZus{}dr3} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{n}{idxs} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{n}{radius} \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{arcsec}
+
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{row} \PY{o+ow}{in} \PY{n}{data\PYZus{}dr2}\PY{o}{.}\PY{n}{iterrows}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{coord} \PY{o}{=} \PY{n}{SkyCoord}\PY{p}{(}\PY{n}{row}\PY{o}{.}\PY{n}{alpha}\PY{p}{,} \PY{n}{row}\PY{o}{.}\PY{n}{delta}\PY{p}{,} \PY{n}{unit}\PY{o}{=}\PY{n}{u}\PY{o}{.}\PY{n}{deg}\PY{p}{)}
+    \PY{n}{job} \PY{o}{=} \PY{n}{Gaia}\PY{o}{.}\PY{n}{cone\PYZus{}search}\PY{p}{(}\PY{n}{coord}\PY{p}{,} \PY{n}{radius}\PY{o}{=}\PY{n}{radius}\PY{p}{)}
+    \PY{n}{res} \PY{o}{=} \PY{n}{job}\PY{o}{.}\PY{n}{get\PYZus{}results}\PY{p}{(}\PY{p}{)}
+    
+    \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{res}\PY{p}{)} \PY{o}{!=} \PY{l+m+mi}{1}\PY{p}{:}
+        \PY{n}{warnings}\PY{o}{.}\PY{n}{warn}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Length of result not equal to 1 for }\PY{l+s+si}{\PYZob{}}\PY{n}{row}\PY{o}{.}\PY{n}{source\PYZus{}id}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{k}{continue}
+    
+    \PY{n}{data\PYZus{}dr3}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{res}\PY{p}{)}
+    \PY{n}{idxs}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{i}\PY{p}{)} \PY{c+c1}{\PYZsh{} keep track of index for joining}
+    
+\PY{n}{data\PYZus{}dr3} \PY{o}{=} \PY{n}{vstack}\PY{p}{(}\PY{n}{data\PYZus{}dr3}\PY{p}{)}\PY{o}{.}\PY{n}{to\PYZus{}pandas}\PY{p}{(}\PY{p}{)}
+\PY{n}{data\PYZus{}dr3} \PY{o}{=} \PY{n}{data\PYZus{}dr3}\PY{o}{.}\PY{n}{set\PYZus{}index}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{idxs}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/tmp/ipykernel\_466903/39562995.py:11: UserWarning: Length of result not equal to
+1 for -9223372036854775808!
+  warnings.warn(f"Length of result not equal to 1 for \{row.source\_id\}!")
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{data\PYZus{}dr3}\PY{o}{.}\PY{n}{columns} \PY{o}{=} \PY{p}{[}\PY{n}{c}\PY{o}{+}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZus{}dr3}\PY{l+s+s2}{\PYZdq{}}  \PY{k}{if} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZus{}dr3}\PY{l+s+s2}{\PYZdq{}} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{c} \PY{k}{else} \PY{n}{c} \PY{k}{for} \PY{n}{c} \PY{o+ow}{in} \PY{n}{data\PYZus{}dr3}\PY{o}{.}\PY{n}{columns}\PY{p}{]}
+\PY{n}{data\PYZus{}dr2}\PY{o}{.}\PY{n}{columns} \PY{o}{=} \PY{p}{[}\PY{n}{c}\PY{o}{+}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZus{}dr2}\PY{l+s+s2}{\PYZdq{}} \PY{k}{if} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZus{}dr2}\PY{l+s+s2}{\PYZdq{}} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{c} \PY{k}{else} \PY{n}{c} \PY{k}{for} \PY{n}{c} \PY{o+ow}{in} \PY{n}{data\PYZus{}dr2}\PY{o}{.}\PY{n}{columns}\PY{p}{]}
+
+\PY{n}{data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{merge}\PY{p}{(}\PY{n}{data\PYZus{}dr2}\PY{p}{,} \PY{n}{data\PYZus{}dr3}\PY{p}{,} \PY{n}{left\PYZus{}index}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{right\PYZus{}index}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{how}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{outer}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{get\PYZus{}sdss\PYZus{}colors}\PY{p}{(}\PY{n}{df}\PY{p}{,} \PY{n}{ra\PYZus{}key}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ra}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{dec\PYZus{}key}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{dec}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{filters}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{u}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{g}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{r}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{i}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{z}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+    
+    \PY{n}{all\PYZus{}data} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    
+    \PY{k}{for} \PY{n}{idx}\PY{p}{,} \PY{n}{row} \PY{o+ow}{in} \PY{n}{df}\PY{o}{.}\PY{n}{iterrows}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+        
+        \PY{n}{coord} \PY{o}{=} \PY{n}{SkyCoord}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{n}{ra\PYZus{}key}\PY{p}{]}\PY{p}{,} \PY{n}{row}\PY{p}{[}\PY{n}{dec\PYZus{}key}\PY{p}{]}\PY{p}{,} \PY{n}{unit}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{deg}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        
+        \PY{k}{try}\PY{p}{:}
+            \PY{n}{res} \PY{o}{=} \PY{n}{SDSS}\PY{o}{.}\PY{n}{query\PYZus{}region}\PY{p}{(}
+                \PY{n}{coord}\PY{p}{,} 
+                \PY{n}{radius}\PY{o}{=}\PY{l+m+mi}{1}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{arcsec}\PY{p}{,} 
+                \PY{n}{spectro}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,}
+                \PY{n}{fields}\PY{o}{=}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ra}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{dec}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{objid}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{+} \PY{n}{filters}\PY{p}{,}
+            \PY{p}{)}
+        \PY{k}{except} \PY{n+ne}{Exception} \PY{k}{as} \PY{n}{e}\PY{p}{:}
+            \PY{n}{all\PYZus{}data}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{row}\PY{p}{)}
+            \PY{k}{continue}
+            
+        \PY{k}{if} \PY{n}{res} \PY{o+ow}{is} \PY{k+kc}{None} \PY{o+ow}{or} \PY{o+ow}{not} \PY{n+nb}{len}\PY{p}{(}\PY{n}{res}\PY{p}{)}\PY{p}{:}
+            \PY{n}{all\PYZus{}data}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{row}\PY{p}{)}
+            \PY{n}{warnings}\PY{o}{.}\PY{n}{warn}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Skipping }\PY{l+s+si}{\PYZob{}}\PY{n}{row}\PY{o}{.}\PY{n}{DESIGNATION}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ because no SDSS data!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{k}{continue}
+        
+        \PY{n}{res} \PY{o}{=} \PY{n}{res}\PY{o}{.}\PY{n}{to\PYZus{}pandas}\PY{p}{(}\PY{p}{)}
+        
+        \PY{n}{res\PYZus{}filtered} \PY{o}{=} \PY{n}{res}\PY{p}{[}\PY{n}{res}\PY{o}{.}\PY{n}{g} \PY{o}{\PYZgt{}} \PY{o}{\PYZhy{}}\PY{l+m+mi}{100}\PY{p}{]}
+        
+        \PY{k}{if} \PY{o+ow}{not} \PY{n+nb}{len}\PY{p}{(}\PY{n}{res}\PY{p}{)}\PY{p}{:}
+            \PY{n}{all\PYZus{}data}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{row}\PY{p}{)}
+            \PY{n}{warnings}\PY{o}{.}\PY{n}{warn}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Skipping }\PY{l+s+si}{\PYZob{}}\PY{n}{row}\PY{o}{.}\PY{n}{DESIGNATION}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ because no high quality SDSS data!}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+            \PY{k}{continue}
+        
+        \PY{c+c1}{\PYZsh{} take the u, g, r, i, z from the closest row }
+        \PY{n}{min\PYZus{}sep} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{argmin}\PY{p}{(}
+            \PY{n}{coord}\PY{o}{.}\PY{n}{separation}\PY{p}{(}
+                \PY{n}{SkyCoord}\PY{p}{(}
+                    \PY{n}{res\PYZus{}filtered}\PY{o}{.}\PY{n}{ra}\PY{o}{.}\PY{n}{values}\PY{p}{,} 
+                    \PY{n}{res\PYZus{}filtered}\PY{o}{.}\PY{n}{dec}\PY{o}{.}\PY{n}{values}\PY{p}{,} 
+                    \PY{n}{unit}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{deg}\PY{l+s+s2}{\PYZdq{}}
+                \PY{p}{)}
+            \PY{p}{)}
+        \PY{p}{)}
+        \PY{k}{for} \PY{n}{filt} \PY{o+ow}{in} \PY{n}{filters}\PY{p}{:}
+            \PY{n}{row}\PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{filt}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZus{}sdss}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{res\PYZus{}filtered}\PY{p}{[}\PY{n}{filt}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{p}{[}\PY{n}{min\PYZus{}sep}\PY{p}{]}
+        
+        \PY{n}{all\PYZus{}data}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{row}\PY{p}{)}
+        
+    \PY{k}{return} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{all\PYZus{}data}\PY{p}{)}
+        
+\PY{n}{data} \PY{o}{=} \PY{n}{get\PYZus{}sdss\PYZus{}colors}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{ra\PYZus{}key}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ra\PYZus{}dr3}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{dec\PYZus{}key}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{dec\PYZus{}dr3}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{data}\PY{p}{[}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{source\PYZus{}id\PYZus{}dr2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{alpha\PYZus{}dr2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{delta\PYZus{}dr2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mu\PYZus{}alpha\PYZus{}dr2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mu\PYZus{}delta\PYZus{}dr2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{SOURCE\PYZus{}ID\PYZus{}dr3}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ra\PYZus{}dr3}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{dec\PYZus{}dr3}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pmra\PYZus{}dr3}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pmdec\PYZus{}dr3}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+          source\_id\_dr2   alpha\_dr2  delta\_dr2 mu\_alpha\_dr2 mu\_delta\_dr2  \textbackslash{}
+0   1450811159128205568  208.955653  26.502208        1.078        5.259
+1   1450817000283805824  209.013621  26.661679       -0.466       -0.583
+2   1450826552290908800  209.128453  26.840015       -1.211       -1.139
+3   1450826724089602816  209.159600  26.872888        -1.84       -1.784
+4   1451038792395234560  209.174766  26.979976       -1.932        0.579
+5   1450823051893369984  209.261163  26.829991       -1.709       -0.332
+6   1450803222028673280  209.331958  26.573608       -1.492       -0.928
+7   1450833767836315392  209.467272  26.804392       -0.207       -0.927
+8   1450828682594980736  209.479318  26.664838       -0.462       -0.479
+9   1450835314024556544  209.500251  26.835870       -1.006       -1.389
+10  1450748486965605760  209.520145  26.287895       -0.566       -1.793
+11  1450842185972291840  209.573497  26.944967       -1.435        0.541
+12  1450781163077088000  209.610213  26.651188        0.058       -1.044
+13  1450782949783229824  209.668856  26.711657       -2.084       -2.503
+14  1450751617997283840  209.681364  26.467320       -5.797       -2.153
+15  1450739381635432192  209.700291  26.407019         0.24       -1.969
+16  1450785045727265792  209.810712  26.693513       -1.595       -1.315
+17  1450788584780752256  209.845448  26.753301       -7.457       -2.497
+18  1450783774417361280  209.916855  26.655120      -10.529      -11.886
+19 -9223372036854775808  209.489916  26.858467          NaN          NaN
+20  1258556500130302080  210.143865  25.931296        -1.34       -0.978
+
+    SOURCE\_ID\_dr3      ra\_dr3    dec\_dr3   pmra\_dr3  pmdec\_dr3
+0    1.450811e+18  208.955653  26.502208  -1.957361  -2.901003
+1    1.450817e+18  209.013621  26.661679  -1.147453  -0.904130
+2    1.450827e+18  209.128453  26.840015  -0.837238  -0.971798
+3    1.450827e+18  209.159600  26.872888  -0.857254  -1.206666
+4    1.451039e+18  209.174766  26.979976  -1.652480  -0.706780
+5    1.450823e+18  209.261163  26.829991  -1.400544  -1.098103
+6    1.450803e+18  209.331957  26.573608  -1.378667  -0.721432
+7    1.450834e+18  209.467272  26.804392  -1.324451  -0.947451
+8    1.450829e+18  209.479318  26.664838  -0.470838  -0.927059
+9    1.450835e+18  209.500250  26.835871  -1.611917  -0.534405
+10   1.450748e+18  209.520145  26.287895  -0.832462  -1.081806
+11   1.450842e+18  209.573497  26.944967  -1.064027  -0.821582
+12   1.450781e+18  209.610213  26.651188  -0.600902  -0.834171
+13   1.450783e+18  209.668855  26.711657  -3.194013  -1.795397
+14   1.450752e+18  209.681363  26.467319  -4.928035  -3.255653
+15   1.450739e+18  209.700291  26.407018  -0.215862  -3.008471
+16   1.450785e+18  209.810711  26.693513  -1.239291  -1.117548
+17   1.450789e+18  209.845446  26.753300  -7.274916  -2.051706
+18   1.450784e+18  209.916853  26.655119 -11.452348  -7.981481
+19            NaN         NaN        NaN        NaN        NaN
+20   1.258557e+18  210.143865  25.931296  -1.235442  -0.889244
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \subsubsection{Problem 1a Discussion}\label{problem-1a-discussion}
+
+A summary of the results of merging the DR2 catalog from Carlin \& Sand
+(2018) and the Gaia DR3 measurements of the same objects is shown in the
+above table!
+
+\subsubsection{Problem 1b}\label{problem-1b}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{fig}\PY{p}{,} \PY{n}{axs} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,}\PY{l+m+mi}{18}\PY{p}{)}\PY{p}{)}
+\PY{n}{ax1}\PY{p}{,} \PY{n}{ax2}\PY{p}{,} \PY{n}{ax3}\PY{p}{,} \PY{n}{ax4}\PY{p}{,} \PY{n}{ax5}\PY{p}{,} \PY{n}{ax6} \PY{o}{=} \PY{n}{axs}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} first plot the proper motion from DR2 to DR3}
+\PY{n}{ax1}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}
+    \PY{n}{data}\PY{o}{.}\PY{n}{pmra\PYZus{}dr3}\PY{p}{,} 
+    \PY{n}{data}\PY{o}{.}\PY{n}{mu\PYZus{}alpha\PYZus{}dr2}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}\PY{p}{,}
+    \PY{n}{xerr} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{pmra\PYZus{}error\PYZus{}dr3}\PY{p}{,}
+    \PY{n}{yerr} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{mu\PYZus{}alpha\PYZus{}err\PYZus{}dr2}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}\PY{p}{,}
+    \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{none}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{marker}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{o}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{k}\PY{l+s+s2}{\PYZdq{}}
+\PY{p}{)}
+
+\PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mu\PYZus{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{alpha\PYZdl{} (GAIA DR2)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mu\PYZus{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{alpha\PYZdl{} (GAIA DR3)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{ylim} \PY{o}{=} \PY{n}{ax1}\PY{o}{.}\PY{n}{get\PYZus{}ylim}\PY{p}{(}\PY{p}{)}
+\PY{n}{xlim} \PY{o}{=} \PY{n}{ax1}\PY{o}{.}\PY{n}{get\PYZus{}xlim}\PY{p}{(}\PY{p}{)}
+\PY{n}{x}\PY{o}{=}\PY{n}{y}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{*}\PY{n}{ylim}\PY{p}{)}
+\PY{n}{ax1}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{,}\PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{n}{ylim}\PY{p}{)}
+\PY{n}{ax1}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{n}{xlim}\PY{p}{)}
+
+\PY{n}{ax2}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}
+    \PY{n}{data}\PY{o}{.}\PY{n}{pmdec\PYZus{}dr3}\PY{p}{,} 
+    \PY{n}{data}\PY{o}{.}\PY{n}{mu\PYZus{}delta\PYZus{}dr2}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}\PY{p}{,}
+    \PY{n}{xerr} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{pmdec\PYZus{}error\PYZus{}dr3}\PY{p}{,}
+    \PY{n}{yerr} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{mu\PYZus{}delta\PYZus{}err\PYZus{}dr2}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}\PY{p}{,}
+    \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{none}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{marker}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{o}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{color}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{k}\PY{l+s+s2}{\PYZdq{}}
+\PY{p}{)}
+
+\PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mu\PYZus{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{delta\PYZdl{} (GAIA DR2)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mu\PYZus{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{delta\PYZdl{} (GAIA DR3)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{ylim} \PY{o}{=} \PY{n}{ax2}\PY{o}{.}\PY{n}{get\PYZus{}ylim}\PY{p}{(}\PY{p}{)}
+\PY{n}{xlim} \PY{o}{=} \PY{n}{ax2}\PY{o}{.}\PY{n}{get\PYZus{}xlim}\PY{p}{(}\PY{p}{)}
+\PY{n}{x}\PY{o}{=}\PY{n}{y}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{o}{*}\PY{n}{ylim}\PY{p}{)}
+\PY{n}{ax2}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x}\PY{p}{,}\PY{n}{y}\PY{p}{,}\PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{n}{ylim}\PY{p}{)}
+\PY{n}{ax2}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{n}{xlim}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Then a histogram of the difference in the uncertainties}
+\PY{n}{err\PYZus{}diff} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{pmra\PYZus{}error\PYZus{}dr3} \PY{o}{\PYZhy{}} \PY{n}{data}\PY{o}{.}\PY{n}{mu\PYZus{}alpha\PYZus{}err\PYZus{}dr2}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}
+\PY{n}{med} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{nanmedian}\PY{p}{(}\PY{n}{err\PYZus{}diff}\PY{p}{)}
+\PY{n}{ax3}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{err\PYZus{}diff}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fill}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{ax3}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Delta }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mu\PYZus{}}\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{alpha,DR3\PYZcb{} \PYZhy{} }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Delta }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mu\PYZus{}}\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{alpha,DR2\PYZcb{}\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax3}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{N}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax3}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{n}{med}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax3}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{n}{med}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{,} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Median=}\PY{l+s+si}{\PYZob{}}\PY{n}{med}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{verticalalignment}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{horizontalalignment}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{backgroundcolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{white}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{err\PYZus{}diff} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{pmdec\PYZus{}error\PYZus{}dr3} \PY{o}{\PYZhy{}} \PY{n}{data}\PY{o}{.}\PY{n}{mu\PYZus{}delta\PYZus{}err\PYZus{}dr2}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}
+\PY{n}{med} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{nanmedian}\PY{p}{(}\PY{n}{err\PYZus{}diff}\PY{p}{)}
+\PY{n}{ax4}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{err\PYZus{}diff}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fill}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{ax4}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Delta }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mu\PYZus{}}\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{delta,DR3\PYZcb{} \PYZhy{} }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Delta }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mu\PYZus{}}\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{delta,DR2\PYZcb{}\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax4}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{N}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax4}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{n}{med}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax4}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{n}{med}\PY{p}{,} \PY{l+m+mf}{6.5}\PY{p}{,} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Median=}\PY{l+s+si}{\PYZob{}}\PY{n}{med}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{verticalalignment}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{horizontalalignment}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{backgroundcolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{white}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} then a histogram of the difference in the proper motion values}
+\PY{n}{diff} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{pmra\PYZus{}dr3} \PY{o}{\PYZhy{}} \PY{n}{data}\PY{o}{.}\PY{n}{mu\PYZus{}alpha\PYZus{}dr2}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}
+\PY{n}{mean} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{nanmean}\PY{p}{(}\PY{n}{diff}\PY{p}{)}
+\PY{n}{std} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{nanstd}\PY{p}{(}\PY{n}{diff}\PY{p}{)}
+
+\PY{n}{ax5}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{diff}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fill}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{ax5}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mu\PYZus{}}\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{alpha,DR3\PYZcb{} \PYZhy{} }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mu\PYZus{}}\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{alpha,DR2\PYZcb{}\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax5}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{N}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax5}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{n}{mean}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax5}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{n}{mean}\PY{o}{+}\PY{l+m+mi}{5}\PY{o}{*}\PY{n}{std}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax5}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{n}{mean}\PY{o}{\PYZhy{}}\PY{l+m+mi}{5}\PY{o}{*}\PY{n}{std}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax5}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{n}{mean}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{,} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Mean=}\PY{l+s+si}{\PYZob{}}\PY{n}{mean}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{verticalalignment}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{horizontalalignment}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{backgroundcolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{white}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax5}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{n}{mean}\PY{o}{+}\PY{l+m+mi}{5}\PY{o}{*}\PY{n}{std}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{,} \PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}5}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sigma\PYZdl{}=}\PY{l+s+si}{\PYZob{}}\PY{n}{std}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{verticalalignment}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{horizontalalignment}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{backgroundcolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{white}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{diff} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{pmdec\PYZus{}dr3} \PY{o}{\PYZhy{}} \PY{n}{data}\PY{o}{.}\PY{n}{mu\PYZus{}delta\PYZus{}dr2}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}
+\PY{n}{mean} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{nanmean}\PY{p}{(}\PY{n}{diff}\PY{p}{)}
+\PY{n}{std} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{nanstd}\PY{p}{(}\PY{n}{diff}\PY{p}{)}
+
+\PY{n}{ax6}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{diff}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fill}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\PY{n}{ax6}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mu\PYZus{}}\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{delta,DR3\PYZcb{} \PYZhy{} }\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mu\PYZus{}}\PY{l+s+s2}{\PYZob{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{delta,DR2\PYZcb{}\PYZdl{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax6}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{N}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax6}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{n}{mean}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax6}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{n}{mean}\PY{o}{+}\PY{l+m+mi}{5}\PY{o}{*}\PY{n}{std}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax6}\PY{o}{.}\PY{n}{axvline}\PY{p}{(}\PY{n}{mean}\PY{o}{\PYZhy{}}\PY{l+m+mi}{5}\PY{o}{*}\PY{n}{std}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{:}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{ax6}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{n}{mean}\PY{p}{,} \PY{l+m+mf}{6.5}\PY{p}{,} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Mean=}\PY{l+s+si}{\PYZob{}}\PY{n}{mean}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{verticalalignment}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{horizontalalignment}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{backgroundcolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{white}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax6}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{n}{mean}\PY{o}{+}\PY{l+m+mi}{5}\PY{o}{*}\PY{n}{std}\PY{p}{,} \PY{l+m+mf}{6.5}\PY{p}{,} \PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}5}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{sigma\PYZdl{}=}\PY{l+s+si}{\PYZob{}}\PY{n}{std}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{,} \PY{n}{verticalalignment}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{horizontalalignment}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{center}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{backgroundcolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{white}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+Text(10.219034500144446, 6.5, '\$5\textbackslash{}\textbackslash{}sigma\$=2.11')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Franz_ASTR540_HW4_NB_files/Franz_ASTR540_HW4_NB_8_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{Problem 1b Discussion}\label{problem-1b-discussion}
+
+The median improvement in the uncertainties in proper motions is
+\textasciitilde0.50 mas/yr. See the above histograms (row 2 in the above
+plot) for the distribution of improvements. As shown in the third row of
+the above plot, there have not been any \textgreater{} 5 changes in the
+proper motion between gaia DR3 and DR2 for this small sample.
+
+\subsubsection{Problem 1c}\label{problem-1c}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} compute the error weighted mean}
+\PY{n}{pmra}\PY{p}{,} \PY{n}{pmra\PYZus{}wt} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{pmra\PYZus{}dr3}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{pd}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{pmra\PYZus{}dr3}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{n}{data}\PY{o}{.}\PY{n}{pmra\PYZus{}error\PYZus{}dr3}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{pd}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{pmra\PYZus{}dr3}\PY{p}{)}\PY{p}{]}
+\PY{n}{pmdec}\PY{p}{,} \PY{n}{pmdec\PYZus{}wt} \PY{o}{=} \PY{n}{data}\PY{o}{.}\PY{n}{pmdec\PYZus{}dr3}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{pd}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{pmdec\PYZus{}dr3}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{n}{data}\PY{o}{.}\PY{n}{pmdec\PYZus{}error\PYZus{}dr3}\PY{p}{[}\PY{o}{\PYZti{}}\PY{n}{pd}\PY{o}{.}\PY{n}{isna}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{pmdec\PYZus{}dr3}\PY{p}{)}\PY{p}{]}
+
+\PY{n}{where\PYZus{}not\PYZus{}outlier} \PY{o}{=} \PY{n}{pmra}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{dec\PYZus{}dr3} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{o}{/}\PY{l+m+mi}{180}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{o}{\PYZhy{}}\PY{l+m+mi}{4}
+\PY{n}{pmra} \PY{o}{=} \PY{n}{pmra}\PY{p}{[}\PY{n}{where\PYZus{}not\PYZus{}outlier}\PY{p}{]}
+\PY{n}{pmra\PYZus{}wt} \PY{o}{=} \PY{n}{pmra\PYZus{}wt}\PY{p}{[}\PY{n}{where\PYZus{}not\PYZus{}outlier}\PY{p}{]}
+\PY{n}{pmdec} \PY{o}{=} \PY{n}{pmdec}\PY{p}{[}\PY{n}{where\PYZus{}not\PYZus{}outlier}\PY{p}{]}
+\PY{n}{pmdec\PYZus{}wt} \PY{o}{=} \PY{n}{pmdec\PYZus{}wt}\PY{p}{[}\PY{n}{where\PYZus{}not\PYZus{}outlier}\PY{p}{]}
+
+\PY{n}{mean\PYZus{}pmra} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{n}{pmra}\PY{p}{,} \PY{n}{weights}\PY{o}{=}\PY{n}{pmra\PYZus{}wt}\PY{p}{)}
+\PY{n}{std\PYZus{}pmra} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{p}{(}\PY{n}{pmra}\PY{o}{\PYZhy{}}\PY{n}{mean\PYZus{}pmra}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{weights}\PY{o}{=}\PY{n}{pmra\PYZus{}wt}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{mean\PYZus{}pmdec} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{n}{pmdec}\PY{p}{,} \PY{n}{weights}\PY{o}{=}\PY{n}{pmdec\PYZus{}wt}\PY{p}{)}
+\PY{n}{std\PYZus{}pmdec} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sqrt}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{average}\PY{p}{(}\PY{p}{(}\PY{n}{pmdec}\PY{o}{\PYZhy{}}\PY{n}{mean\PYZus{}pmdec}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{weights}\PY{o}{=}\PY{n}{pmdec\PYZus{}wt}\PY{p}{)}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{rf}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{(\PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mu\PYZus{}a\PYZti{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{cos}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{delta\PYZdl{}, \PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mu\PYZus{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{delta\PYZdl{}) = (}\PY{l+s+si}{\PYZob{}}\PY{n}{mean\PYZus{}pmra}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, }\PY{l+s+si}{\PYZob{}}\PY{n}{mean\PYZus{}pmdec}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) \PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{pm\PYZdl{} (}\PY{l+s+si}{\PYZob{}}\PY{n}{std\PYZus{}pmra}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, }\PY{l+s+si}{\PYZob{}}\PY{n}{std\PYZus{}pmdec}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} make plot similar to Fig. 1 from the paper}
+
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{ax}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}
+    \PY{n}{data}\PY{o}{.}\PY{n}{pmra\PYZus{}dr3}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{dec\PYZus{}dr3} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{o}{/}\PY{l+m+mi}{180}\PY{p}{)}\PY{p}{,}
+    \PY{n}{data}\PY{o}{.}\PY{n}{pmdec\PYZus{}dr3}\PY{p}{,}
+    \PY{n}{xerr}\PY{o}{=}\PY{n}{data}\PY{o}{.}\PY{n}{pmra\PYZus{}error\PYZus{}dr3}\PY{p}{,}
+    \PY{n}{yerr}\PY{o}{=}\PY{n}{data}\PY{o}{.}\PY{n}{pmdec\PYZus{}error\PYZus{}dr3}\PY{p}{,}
+    \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{none}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} 
+    \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{GAIA DR3}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{cornflowerblue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}
+\PY{p}{)}
+
+\PY{n}{ax}\PY{o}{.}\PY{n}{errorbar}\PY{p}{(}
+    \PY{n}{data}\PY{o}{.}\PY{n}{mu\PYZus{}alpha\PYZus{}dr2}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{delta\PYZus{}dr2}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi}\PY{o}{/}\PY{l+m+mi}{180}\PY{p}{)}\PY{p}{,}
+    \PY{n}{data}\PY{o}{.}\PY{n}{mu\PYZus{}delta\PYZus{}dr2}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}\PY{p}{,}
+    \PY{n}{xerr}\PY{o}{=}\PY{n}{data}\PY{o}{.}\PY{n}{mu\PYZus{}alpha\PYZus{}err\PYZus{}dr2}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}\PY{p}{,}
+    \PY{n}{yerr}\PY{o}{=}\PY{n}{data}\PY{o}{.}\PY{n}{mu\PYZus{}delta\PYZus{}err\PYZus{}dr2}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}\PY{p}{,}
+    \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{none}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{GAIA DR2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{firebrick}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.5}
+\PY{p}{)}
+
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mu\PYZus{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{delta\PYZdl{} [mas/yr]}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{mu\PYZus{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{alpha\PYZti{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{cos}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{delta\PYZdl{} [mas/yr]}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{8}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{)}
+
+\PY{n}{ax}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+(\$\textbackslash{}mu\_a\textasciitilde{}\textbackslash{}cos\textbackslash{}delta\$, \$\textbackslash{}mu\_\textbackslash{}delta\$) = (-1.39, -1.44) \$\textbackslash{}pm\$ (0.69, 0.92)
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<matplotlib.legend.Legend at 0x7d2d117a41d0>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Franz_ASTR540_HW4_NB_files/Franz_ASTR540_HW4_NB_10_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{Problem 1c Discussion}\label{problem-1c-discussion}
+
+I get a mean proper motion, weighted by the uncertainties, of
+(\(\mu_a~\cos\delta\), \(\mu_\delta\)) = (-1.39, -1.44) \(\pm\) (0.69,
+0.92) from the Gaia DR3 dataset. This is consistent with the value from
+Gaia DR2 within \(1\sigma\). Although, interestingly, the uncertainties
+on the mean are much larger for DR3 than DR2. I'm not sure how it was
+computed in the paper, but I did did a weighted standard deviation to
+compute the statistical uncertainty.
+
+\subsubsection{Problem 1d}\label{problem-1d}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{isofile} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{fehm20afem2.SDSSugriz}\PY{l+s+s2}{\PYZdq{}}
+\PY{n}{boo3\PYZus{}distance} \PY{o}{=} \PY{l+m+mf}{46.5} \PY{c+c1}{\PYZsh{} kpc, from the paper}
+
+\PY{k}{def} \PY{n+nf}{M\PYZus{}to\PYZus{}m}\PY{p}{(}\PY{n}{M}\PY{p}{,} \PY{n}{d}\PY{o}{=}\PY{n}{boo3\PYZus{}distance}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{n}{M} \PY{o}{+} \PY{l+m+mi}{5}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{log10}\PY{p}{(}\PY{n}{d}\PY{o}{/}\PY{l+m+mi}{10}\PY{p}{)}
+
+\PY{k}{with} \PY{n+nb}{open}\PY{p}{(}\PY{n}{isofile}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{as} \PY{n}{f}\PY{p}{:}
+    \PY{n}{iso\PYZus{}data} \PY{o}{=} \PY{n}{f}\PY{o}{.}\PY{n}{readlines}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{hdr} \PY{o}{=} \PY{n}{iso\PYZus{}data}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{:}\PY{l+m+mi}{6}\PY{p}{]}
+\PY{n}{iso\PYZus{}data} \PY{o}{=} \PY{n}{iso\PYZus{}data}\PY{p}{[}\PY{l+m+mi}{6}\PY{p}{:}\PY{p}{]}
+
+\PY{n}{hdr\PYZus{}vals} \PY{o}{=} \PY{p}{[}\PY{n}{val}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)} \PY{k}{for} \PY{n}{val} \PY{o+ow}{in} \PY{n}{hdr}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{]}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{if} \PY{n}{val} \PY{o+ow}{not} \PY{o+ow}{in} \PY{p}{\PYZob{}}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{\PYZcb{}}\PY{p}{]}
+\PY{n}{mix\PYZus{}len}\PY{p}{,} \PY{n}{Y}\PY{p}{,} \PY{n}{Z}\PY{p}{,} \PY{n}{Zeff}\PY{p}{,} \PY{n}{Fe\PYZus{}H}\PY{p}{,} \PY{n}{a\PYZus{}Fe} \PY{o}{=} \PY{n}{hdr\PYZus{}vals}
+
+\PY{n}{isochrones\PYZus{}in\PYZus{}this\PYZus{}file} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{n}{base\PYZus{}iso} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}
+    \PY{n}{idx} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{,}
+    \PY{n}{M} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{,}
+    \PY{n}{LogTeff} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{,}
+    \PY{n}{LogG} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{,}
+    \PY{n}{LogL} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{,}
+    \PY{n}{u} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{,}
+    \PY{n}{g} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{,}
+    \PY{n}{r} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{,}
+    \PY{n}{i} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{,}
+    \PY{n}{z} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{,}
+    \PY{n}{age} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{,}
+    \PY{n}{mix\PYZus{}len} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{,}
+    \PY{n}{Y} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{,}
+    \PY{n}{Z} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{,}
+    \PY{n}{Zeff} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{,}
+    \PY{n}{Fe\PYZus{}H} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{,}
+    \PY{n}{a\PYZus{}Fe} \PY{o}{=} \PY{p}{[}\PY{p}{]}\PY{p}{,}
+\PY{p}{)}
+\PY{n}{iso} \PY{o}{=} \PY{n}{deepcopy}\PY{p}{(}\PY{n}{base\PYZus{}iso}\PY{p}{)}
+\PY{n}{age} \PY{o}{=} \PY{k+kc}{None}
+
+\PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{iso\PYZus{}data}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{k}{if} \PY{n}{iso\PYZus{}data}\PY{p}{[}\PY{n}{j}\PY{p}{]} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+        \PY{k}{continue}
+
+    \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}AGE}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{iso\PYZus{}data}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{:}
+        \PY{n}{isochrones\PYZus{}in\PYZus{}this\PYZus{}file}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{iso}\PY{p}{)}\PY{p}{)}
+
+        \PY{n}{age} \PY{o}{=} \PY{n+nb}{float}\PY{p}{(}\PY{n}{iso\PYZus{}data}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ EEPS=}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{AGE=}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+        \PY{n}{iso} \PY{o}{=} \PY{n}{deepcopy}\PY{p}{(}\PY{n}{base\PYZus{}iso}\PY{p}{)}
+        \PY{k}{continue}
+
+    \PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsh{}}\PY{l+s+s1}{\PYZsq{}} \PY{o}{==} \PY{n}{iso\PYZus{}data}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} this line is a header}
+        \PY{k}{continue}
+
+
+    \PY{n}{line} \PY{o}{=} \PY{n}{iso\PYZus{}data}\PY{p}{[}\PY{n}{j}\PY{p}{]}
+    \PY{n}{goodline} \PY{o}{=} \PY{p}{[}\PY{n}{val} \PY{k}{for} \PY{n}{val} \PY{o+ow}{in} \PY{n}{line}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)} \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{val}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}\PY{p}{]}
+
+    \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{goodline}\PY{p}{)} \PY{o}{!=} \PY{l+m+mi}{10}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{n}{goodline}\PY{p}{)}
+        \PY{k}{continue} 
+
+    \PY{k}{for} \PY{n}{val}\PY{p}{,} \PY{n}{key} \PY{o+ow}{in} \PY{n+nb}{zip}\PY{p}{(}\PY{n}{goodline}\PY{p}{,} \PY{n}{iso}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} if key == \PYZsq{}age\PYZsq{}: continue}
+        \PY{n}{iso}\PY{p}{[}\PY{n}{key}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{val}\PY{p}{)}
+
+    \PY{n}{iso}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{age}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{age}\PY{p}{)}
+    \PY{n}{iso}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mix\PYZus{}len}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{mix\PYZus{}len}\PY{p}{)}
+    \PY{n}{iso}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{Y}\PY{p}{)}
+    \PY{n}{iso}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Z}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{Z}\PY{p}{)}
+    \PY{n}{iso}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Zeff}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{Zeff}\PY{p}{)}
+    \PY{n}{iso}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Fe\PYZus{}H}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{Fe\PYZus{}H}\PY{p}{)}
+    \PY{n}{iso}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{a\PYZus{}Fe}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{a\PYZus{}Fe}\PY{p}{)}
+    
+\PY{n}{iso\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}\PY{n}{isochrones\PYZus{}in\PYZus{}this\PYZus{}file}\PY{p}{)}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{n}{drop}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} select just the 10 Gyr one}
+\PY{n}{iso\PYZus{}data} \PY{o}{=} \PY{n}{iso\PYZus{}data}\PY{p}{[}\PY{n}{iso\PYZus{}data}\PY{o}{.}\PY{n}{age} \PY{o}{==} \PY{l+m+mi}{10}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} scale all of the magnitudes to boo3\PYZus{}distance}
+\PY{k}{for} \PY{n}{filt} \PY{o+ow}{in} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{u}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{g}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{r}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{i}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{z}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{:}
+    \PY{n}{iso\PYZus{}data}\PY{p}{[}\PY{n}{filt}\PY{p}{]} \PY{o}{=} \PY{n}{M\PYZus{}to\PYZus{}m}\PY{p}{(}\PY{n}{iso\PYZus{}data}\PY{p}{[}\PY{n}{filt}\PY{p}{]}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}\PY{p}{,} \PY{n}{d}\PY{o}{=}\PY{n}{boo3\PYZus{}distance}\PY{o}{*}\PY{l+m+mf}{1e3}\PY{p}{)}
+
+\PY{n}{iso\PYZus{}data}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+      idx         M LogTeff    LogG     LogL          u          g          r  \textbackslash{}
+7068   12  0.103511  3.5376  5.3748  -2.8181  36.404765  32.468665  30.781265
+7069   13  0.113801  3.5502  5.3310  -2.6829  35.490765  31.976365  30.362465
+7070   14  0.125317  3.5628  5.2860  -2.5455  34.679065  31.476965  29.948765
+7071   15  0.138532  3.5743  5.2421  -2.4122  33.980765  30.999365  29.558465
+7072   16  0.152713  3.5827  5.2041  -2.2982  33.447165  30.609265  29.235965
+{\ldots}   {\ldots}       {\ldots}     {\ldots}     {\ldots}      {\ldots}        {\ldots}        {\ldots}        {\ldots}
+7331  275  0.856466  3.6502  0.7935   3.1312  18.666965  16.462765  15.466865
+7332  276  0.856473  3.6486  0.7629   3.1556  18.667265  16.425365  15.414365
+7333  277  0.856479  3.6471  0.7331   3.1795  18.669365  16.389665  15.363365
+7334  278  0.856486  3.6457  0.7042   3.2026  18.672265  16.355565  15.314365
+7335  279  0.856491  3.6444  0.6775   3.2240  18.675365  16.324365  15.269265
+
+              i          z   age mix\_len       Y           Z        Zeff  \textbackslash{}
+7068  30.051865  29.662965  10.0  1.9380  0.2452  1.2990E-04  1.6990E-04
+7069  29.705465  29.342965  10.0  1.9380  0.2452  1.2990E-04  1.6990E-04
+7070  29.348765  29.010965  10.0  1.9380  0.2452  1.2990E-04  1.6990E-04
+7071  29.001365  28.684265  10.0  1.9380  0.2452  1.2990E-04  1.6990E-04
+7072  28.706265  28.403265  10.0  1.9380  0.2452  1.2990E-04  1.6990E-04
+{\ldots}         {\ldots}        {\ldots}   {\ldots}     {\ldots}     {\ldots}         {\ldots}         {\ldots}
+7331  15.087665  14.876465  10.0  1.9380  0.2452  1.2990E-04  1.6990E-04
+7332  15.029165  14.814465  10.0  1.9380  0.2452  1.2990E-04  1.6990E-04
+7333  14.972265  14.754065  10.0  1.9380  0.2452  1.2990E-04  1.6990E-04
+7334  14.917465  14.695765  10.0  1.9380  0.2452  1.2990E-04  1.6990E-04
+7335  14.866865  14.641965  10.0  1.9380  0.2452  1.2990E-04  1.6990E-04
+
+       Fe\_H   a\_Fe
+7068  -2.01  -0.20
+7069  -2.01  -0.20
+7070  -2.01  -0.20
+7071  -2.01  -0.20
+7072  -2.01  -0.20
+{\ldots}     {\ldots}    {\ldots}
+7331  -2.01  -0.20
+7332  -2.01  -0.20
+7333  -2.01  -0.20
+7334  -2.01  -0.20
+7335  -2.01  -0.20
+
+[268 rows x 17 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{boo3\PYZus{}distance} \PY{o}{=} \PY{l+m+mf}{46.5} \PY{c+c1}{\PYZsh{} kpc, from the paper}
+\PY{n}{boo3\PYZus{}delta\PYZus{}distance} \PY{o}{=} \PY{l+m+mi}{2} \PY{c+c1}{\PYZsh{} kpc, the value used in the paper}
+\PY{n}{boo3\PYZus{}radius} \PY{o}{=} \PY{l+m+mi}{30} \PY{c+c1}{\PYZsh{} arcmin, value used for the cone search in the paper}
+\PY{n}{pmra\PYZus{}min}\PY{p}{,} \PY{n}{pmra\PYZus{}max} \PY{o}{=} \PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)} \PY{c+c1}{\PYZsh{} mu\PYZus{}alpha * cos(delta) in mas/yr}
+\PY{n}{pmdec\PYZus{}min}\PY{p}{,} \PY{n}{pmdec\PYZus{}max} \PY{o}{=} \PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{3}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)} \PY{c+c1}{\PYZsh{} mu\PYZus{}delta in mas/yr}
+
+\PY{c+c1}{\PYZsh{} Color\PYZhy{}magnitude filter: this requires stars to be within}
+\PY{c+c1}{\PYZsh{} 0.1 mag at g0 = 16, increasing linearly to 0.2 mag width at g0 = 22.5}
+\PY{k}{def} \PY{n+nf}{cmd\PYZus{}filter}\PY{p}{(}\PY{n}{g\PYZus{}mag}\PY{p}{)}\PY{p}{:}
+    \PY{n}{p} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{polyfit}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{16}\PY{p}{,} \PY{l+m+mf}{22.5}\PY{p}{)}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mf}{0.1}\PY{p}{,}\PY{l+m+mf}{0.2}\PY{p}{)}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{cmd\PYZus{}filter} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{polyval}\PY{p}{(}\PY{n}{p}\PY{o}{=}\PY{n}{p}\PY{p}{,} \PY{n}{x}\PY{o}{=}\PY{n}{g\PYZus{}mag}\PY{p}{)}
+    \PY{k}{return} \PY{n}{cmd\PYZus{}filter}
+
+\PY{k}{def} \PY{n+nf}{is\PYZus{}within\PYZus{}cmd\PYZus{}filter}\PY{p}{(}\PY{n}{g\PYZus{}mag}\PY{p}{,} \PY{n}{r\PYZus{}mag}\PY{p}{,} \PY{n}{isochrone}\PY{p}{)}\PY{p}{:}
+    \PY{n}{filt} \PY{o}{=} \PY{n}{cmd\PYZus{}filter}\PY{p}{(}\PY{n}{g\PYZus{}mag}\PY{p}{)}
+    
+    \PY{c+c1}{\PYZsh{} find closest isochrone point}
+    \PY{c+c1}{\PYZsh{} good enough for now}
+    \PY{n}{min\PYZus{}idx} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{argmin}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{g\PYZus{}mag}\PY{o}{\PYZhy{}}\PY{n}{isochrone}\PY{o}{.}\PY{n}{g}\PY{o}{.}\PY{n}{values}\PY{p}{)}\PY{p}{)}
+    \PY{n}{g}\PY{p}{,} \PY{n}{r} \PY{o}{=} \PY{n}{isochrone}\PY{o}{.}\PY{n}{g}\PY{o}{.}\PY{n}{values}\PY{p}{[}\PY{n}{min\PYZus{}idx}\PY{p}{]}\PY{p}{,} \PY{n}{isochrone}\PY{o}{.}\PY{n}{r}\PY{o}{.}\PY{n}{values}\PY{p}{[}\PY{n}{min\PYZus{}idx}\PY{p}{]}
+    
+    \PY{n}{color} \PY{o}{=} \PY{n}{g\PYZus{}mag} \PY{o}{\PYZhy{}} \PY{n}{r\PYZus{}mag}
+    
+    \PY{k}{return} \PY{n}{color} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{p}{(}\PY{n}{g}\PY{o}{\PYZhy{}}\PY{n}{r}\PY{o}{+}\PY{n}{filt}\PY{p}{)} \PY{o+ow}{and} \PY{n}{color} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{p}{(}\PY{n}{g}\PY{o}{\PYZhy{}}\PY{n}{r}\PY{o}{\PYZhy{}}\PY{n}{filt}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} first do a cone search in Gaia DR3}
+\PY{n}{Gaia}\PY{o}{.}\PY{n}{ROW\PYZus{}LIMIT} \PY{o}{=} \PY{l+m+mi}{100\PYZus{}000}
+\PY{n}{boo3\PYZus{}coord} \PY{o}{=} \PY{n}{SkyCoord}\PY{p}{(}\PY{l+m+mf}{209.3}\PY{p}{,} \PY{l+m+mf}{26.8}\PY{p}{,} \PY{n}{unit}\PY{o}{=}\PY{n}{u}\PY{o}{.}\PY{n}{deg}\PY{p}{)}
+\PY{n}{res} \PY{o}{=} \PY{n}{Gaia}\PY{o}{.}\PY{n}{query\PYZus{}object}\PY{p}{(}
+    \PY{n}{coordinate}\PY{o}{=}\PY{n}{boo3\PYZus{}coord}\PY{p}{,} 
+    \PY{n}{radius}\PY{o}{=}\PY{n}{boo3\PYZus{}radius}\PY{o}{*}\PY{n}{u}\PY{o}{.}\PY{n}{arcmin}\PY{p}{,}
+    \PY{n}{verbose}\PY{o}{=}\PY{k+kc}{False}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} filter on proper motion}
+\PY{n}{ra\PYZus{}res} \PY{o}{=} \PY{n}{res}\PY{p}{[}\PY{p}{(}\PY{n}{res}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pmra}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{n}{res}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ra}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{u}\PY{o}{.}\PY{n}{radian}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{n}{pmra\PYZus{}min}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{res}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pmra}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{cos}\PY{p}{(}\PY{n}{res}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ra}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{to}\PY{p}{(}\PY{n}{u}\PY{o}{.}\PY{n}{radian}\PY{p}{)}\PY{p}{)} \PY{o}{\PYZlt{}} \PY{n}{pmra\PYZus{}max}\PY{p}{)}\PY{p}{]}
+\PY{n}{dec\PYZus{}res} \PY{o}{=} \PY{n}{ra\PYZus{}res}\PY{p}{[}\PY{p}{(}\PY{n}{ra\PYZus{}res}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pmdec}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{n}{pmdec\PYZus{}min}\PY{p}{)} \PY{o}{*} \PY{p}{(}\PY{n}{ra\PYZus{}res}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pmdec}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{\PYZlt{}} \PY{n}{pmdec\PYZus{}max}\PY{p}{)}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} filter on the CMD cuts}
+\PY{n}{res} \PY{o}{=} \PY{n}{get\PYZus{}sdss\PYZus{}colors}\PY{p}{(}\PY{n}{dec\PYZus{}res}\PY{o}{.}\PY{n}{to\PYZus{}pandas}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{res}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{is\PYZus{}within\PYZus{}cmd\PYZus{}filter}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{res}\PY{o}{.}\PY{n}{apply}\PY{p}{(}
+    \PY{k}{lambda} \PY{n}{row} \PY{p}{:} \PY{n}{is\PYZus{}within\PYZus{}cmd\PYZus{}filter}\PY{p}{(}\PY{n}{row}\PY{o}{.}\PY{n}{g\PYZus{}sdss}\PY{p}{,} \PY{n}{row}\PY{o}{.}\PY{n}{r\PYZus{}sdss}\PY{p}{,} \PY{n}{iso\PYZus{}data}\PY{p}{)}\PY{p}{,}
+    \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}
+\PY{p}{)}
+    
+\PY{n}{res} \PY{o}{=} \PY{n}{res}\PY{p}{[}\PY{n}{res}\PY{o}{.}\PY{n}{is\PYZus{}within\PYZus{}cmd\PYZus{}filter}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} filter on g\PYZus{}0}
+\PY{n}{res} \PY{o}{=} \PY{n}{res}\PY{p}{[}\PY{n}{res}\PY{o}{.}\PY{n}{g\PYZus{}sdss} \PY{o}{\PYZlt{}} \PY{l+m+mi}{20}\PY{p}{]}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+/tmp/ipykernel\_466903/2148086655.py:22: UserWarning: Skipping Gaia DR3
+1450837238169921280 because no SDSS data!
+  warnings.warn(f"Skipping \{row.DESIGNATION\} because no SDSS data!")
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} read in Table 2 from Carlin \PYZam{} Sand (2018)}
+\PY{n}{dr2\PYZus{}res} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Carlin\PYZus{}and\PYZus{}Sand\PYZus{}2018\PYZus{}Table2.txt}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{sep}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}t}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{dr2\PYZus{}res} \PY{o}{=} \PY{n}{get\PYZus{}sdss\PYZus{}colors}\PY{p}{(}\PY{n}{dr2\PYZus{}res}\PY{p}{,} \PY{n}{ra\PYZus{}key}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{alpha}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{dec\PYZus{}key}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{delta}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} then plot it up!}
+\PY{n}{fig}\PY{p}{,} \PY{n}{ax} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{iso\PYZus{}data}\PY{o}{.}\PY{n}{g}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n}{iso\PYZus{}data}\PY{o}{.}\PY{n}{r}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}\PY{p}{,} \PY{n}{iso\PYZus{}data}\PY{o}{.}\PY{n}{g}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{10 Gyr}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{[Fe/H]=\PYZhy{}2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{data}\PY{o}{.}\PY{n}{g\PYZus{}sdss}\PY{o}{\PYZhy{}}\PY{n}{data}\PY{o}{.}\PY{n}{r\PYZus{}sdss}\PY{p}{,} \PY{n}{data}\PY{o}{.}\PY{n}{g\PYZus{}sdss}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{none}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Original Data}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{res}\PY{o}{.}\PY{n}{g\PYZus{}sdss}\PY{o}{\PYZhy{}}\PY{n}{res}\PY{o}{.}\PY{n}{r\PYZus{}sdss}\PY{p}{,} \PY{n}{res}\PY{o}{.}\PY{n}{g\PYZus{}sdss}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{s}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{facecolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{none}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Gaia DR3 Search Results}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{dr2\PYZus{}res}\PY{o}{.}\PY{n}{g\PYZus{}sdss}\PY{o}{\PYZhy{}}\PY{n}{dr2\PYZus{}res}\PY{o}{.}\PY{n}{r\PYZus{}sdss}\PY{p}{,} \PY{n}{dr2\PYZus{}res}\PY{o}{.}\PY{n}{g\PYZus{}sdss}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{X}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{edgecolor}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{facecolor}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{none}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Gaia DR2 Search Results}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Carlin \PYZam{} Sand (2018)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}
+    \PY{n}{iso\PYZus{}data}\PY{o}{.}\PY{n}{g}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n}{iso\PYZus{}data}\PY{o}{.}\PY{n}{r}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)} \PY{o}{+} \PY{n}{cmd\PYZus{}filter}\PY{p}{(}\PY{n}{iso\PYZus{}data}\PY{o}{.}\PY{n}{g}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{n}{iso\PYZus{}data}\PY{o}{.}\PY{n}{g}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}\PY{p}{,}
+    \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{label} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{CMD Filter Ranges}\PY{l+s+s2}{\PYZdq{}}
+\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{plot}\PY{p}{(}
+    \PY{n}{iso\PYZus{}data}\PY{o}{.}\PY{n}{g}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{n}{iso\PYZus{}data}\PY{o}{.}\PY{n}{r}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{cmd\PYZus{}filter}\PY{p}{(}\PY{n}{iso\PYZus{}data}\PY{o}{.}\PY{n}{g}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{n}{iso\PYZus{}data}\PY{o}{.}\PY{n}{g}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}\PY{p}{,}
+    \PY{n}{linestyle}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{invert\PYZus{}yaxis}\PY{p}{(}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{g\PYZhy{}r}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{g}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{ax}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}ylim}\PY{p}{(}\PY{l+m+mi}{22}\PY{p}{,} \PY{l+m+mi}{16}\PY{p}{)}
+\PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlim}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.8}\PY{p}{,} \PY{l+m+mf}{1.8}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+(-0.8, 1.8)
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{Franz_ASTR540_HW4_NB_files/Franz_ASTR540_HW4_NB_15_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \subsubsection{Problem 1d Discussion}\label{problem-1d-discussion}
+
+We used the same proper motion filter, same color-magnitude diagram
+filter, and maximum \(g < 20\) from Carlin \& Sand (2018) to search for
+plausible main sequence and red giant branch proper motion members of
+Bootes III. The results are shown in the figure above.
+
+From the SDSS colors and Isochrones (from HW 1), we find 7 new proper
+motion members of Bootes III. The Isochrone shown is for a 10 Gyr
+cluster with a metallicity \([Fe/H]=-2\). Note that we do not find some
+of the original members from Carlin \& Sand (2018) for two primary
+reasons:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  We use SDSS magnitudes instead of Panstarrs magnitudes. This is
+  because the Isochrone we have access to is for SDSS magnitudes. This
+  changes the exact width of the Color Magnitude Diagram filter and
+  eliminates some of them.
+\item
+  The Isochrone we are using does not include the population of bluer
+  stars on the right side of the color-magnitude diagram. This is a
+  limitation of this analysis.
+\end{enumerate}
+
+Additionally, it is important to note that these are simply
+\textbf{plausible} members of Bootes III that need true RV measurements
+to confirm. As described in Carlin \& Sand (2018), there are numerous
+sources of contaminants for these proper motion calculations.
+
+    \subsection{Problem 2}\label{problem-2}
+
+Congratulations! You have discovered a dwarf galaxy around the Milky
+Way. Wishing to refine it's distance, you took time series imaging data
+of this new system and identified 3 RR Lyrae stars, whose proper- ties
+are in the data file ``rrl.dat''. Infer the distance to the new dwarf
+galaxy using the basic relations in Caceres \& Catelan 2008, ApJSS, 179,
+242. You can assume a metallicity of Z=0.0001, but assume a 10\%
+uncertainty on this value. For the average i and z band magnitudes, you
+can assume 0.03 mag uncertainties, and a 0.01 day uncertainty on the RRL
+periods. What is the distance (with uncertainty) to your newly
+discovered dwarf galaxy?
+
+The relevant equations in Caceres \& CAtelan (2008) are equations (6)
+and (7):
+
+\(M_z = 0.839 - 1.295~\log P + 0.211~\log Z\)
+
+\(M_i = 0.908 - 1.035~\log P + 0.220~\log Z\)
+
+Which has the general form
+\(M_f = \gamma - \alpha~\log P + \beta~\log Z\)
+
+From these we can use the distance modulus equation to find the distance
+to each RR Lyrae Star
+
+\(m - M = 5\log d - 5 \rightarrow \log d = \frac{m - M + 5}{5}\)
+
+Substituting in the general formulation of M
+
+\(\log d_f = \frac{1}{5} \left[ m_f - \gamma + \alpha~\log P - \beta~\log Z + 5 \right]\)
+
+Which then, propagating uncertainty, has an uncertainty of
+
+\(\sigma_d = d_f \left[\left(\alpha\frac{\sigma_P}{\ln(10)~ P}\right)^2 + \left(\beta\frac{\sigma_Z}{\ln(10)~Z}\right)^2 + \left(\frac{\sigma_m}{m_f}\right)^2 \right]^{1/2}\)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{log\PYZus{}distance}\PY{p}{(}\PY{n}{P}\PY{p}{,} \PY{n}{sigma\PYZus{}P}\PY{p}{,} \PY{n}{Z}\PY{p}{,} \PY{n}{sigma\PYZus{}Z}\PY{p}{,} \PY{n}{m}\PY{p}{,} \PY{n}{sigma\PYZus{}m}\PY{p}{,} \PY{n}{alpha}\PY{p}{,} \PY{n}{beta}\PY{p}{,} \PY{n}{gamma}\PY{p}{)}\PY{p}{:}
+    \PY{n}{log\PYZus{}d} \PY{o}{=} \PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mi}{5} \PY{o}{*} \PY{p}{(}\PY{n}{m} \PY{o}{\PYZhy{}} \PY{n}{gamma} \PY{o}{+} \PY{n}{alpha}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{log10}\PY{p}{(}\PY{n}{P}\PY{p}{)} \PY{o}{\PYZhy{}} \PY{n}{beta}\PY{o}{*}\PY{n}{np}\PY{o}{.}\PY{n}{log10}\PY{p}{(}\PY{n}{Z}\PY{p}{)} \PY{o}{+} \PY{l+m+mi}{5}\PY{p}{)}
+    \PY{n}{sigma\PYZus{}d} \PY{o}{=} \PY{n}{log\PYZus{}d} \PY{o}{*} \PY{p}{(} \PY{p}{(}\PY{n}{alpha}\PY{o}{*}\PY{n}{sigma\PYZus{}P}\PY{o}{/}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}\PY{o}{*}\PY{n}{P}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{+} \PY{p}{(}\PY{n}{beta}\PY{o}{*}\PY{n}{sigma\PYZus{}Z}\PY{o}{/}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}\PY{o}{*}\PY{n}{Z}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{+} \PY{p}{(}\PY{n}{sigma\PYZus{}m}\PY{o}{/}\PY{n}{m}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mf}{0.5}
+    
+    \PY{k}{return} \PY{n}{log\PYZus{}d}\PY{p}{,} \PY{n}{sigma\PYZus{}d}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{rr\PYZus{}lyrae} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{rrl.dat}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{sep}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{n}{rr\PYZus{}lyrae}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Z}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mf}{0.0001}
+\PY{n}{rr\PYZus{}lyrae}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Z\PYZus{}err}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mf}{0.1}\PY{o}{*}\PY{n}{rr\PYZus{}lyrae}\PY{o}{.}\PY{n}{Z}
+
+\PY{n}{rr\PYZus{}lyrae}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{i\PYZus{}mag\PYZus{}err}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mf}{0.03}
+\PY{n}{rr\PYZus{}lyrae}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{z\PYZus{}mag\PYZus{}err}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mf}{0.03}
+
+\PY{n}{rr\PYZus{}lyrae}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Period\PYZus{}err}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{l+m+mf}{0.01}
+
+\PY{n}{i\PYZus{}band\PYZus{}kwargs} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}
+    \PY{n}{alpha} \PY{o}{=} \PY{l+m+mf}{1.035}\PY{p}{,}
+    \PY{n}{beta} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.220}\PY{p}{,}
+    \PY{n}{gamma} \PY{o}{=} \PY{l+m+mf}{0.908}
+\PY{p}{)}
+
+\PY{n}{z\PYZus{}band\PYZus{}kwargs} \PY{o}{=} \PY{n+nb}{dict}\PY{p}{(}
+    \PY{n}{alpha} \PY{o}{=} \PY{l+m+mf}{1.295}\PY{p}{,}
+    \PY{n}{beta} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{l+m+mf}{0.211}\PY{p}{,}
+    \PY{n}{gamma} \PY{o}{=} \PY{l+m+mf}{0.839}
+\PY{p}{)}
+
+\PY{n}{rr\PYZus{}lyrae}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log\PYZus{}d\PYZus{}i}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{rr\PYZus{}lyrae}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log\PYZus{}d\PYZus{}i\PYZus{}err}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{log\PYZus{}distance}\PY{p}{(}
+    \PY{n}{rr\PYZus{}lyrae}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Period(d)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,}
+    \PY{n}{rr\PYZus{}lyrae}\PY{o}{.}\PY{n}{Period\PYZus{}err}\PY{p}{,}
+    \PY{n}{rr\PYZus{}lyrae}\PY{o}{.}\PY{n}{Z}\PY{p}{,}
+    \PY{n}{rr\PYZus{}lyrae}\PY{o}{.}\PY{n}{Z\PYZus{}err}\PY{p}{,}
+    \PY{n}{rr\PYZus{}lyrae}\PY{o}{.}\PY{n}{i\PYZus{}mag}\PY{p}{,}
+    \PY{n}{rr\PYZus{}lyrae}\PY{o}{.}\PY{n}{i\PYZus{}mag\PYZus{}err}\PY{p}{,}
+    \PY{o}{*}\PY{o}{*}\PY{n}{i\PYZus{}band\PYZus{}kwargs}
+\PY{p}{)}
+
+\PY{n}{rr\PYZus{}lyrae}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log\PYZus{}d\PYZus{}z}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{rr\PYZus{}lyrae}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{log\PYZus{}d\PYZus{}z\PYZus{}err}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{log\PYZus{}distance}\PY{p}{(}
+    \PY{n}{rr\PYZus{}lyrae}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Period(d)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,}
+    \PY{n}{rr\PYZus{}lyrae}\PY{o}{.}\PY{n}{Period\PYZus{}err}\PY{p}{,}
+    \PY{n}{rr\PYZus{}lyrae}\PY{o}{.}\PY{n}{Z}\PY{p}{,}
+    \PY{n}{rr\PYZus{}lyrae}\PY{o}{.}\PY{n}{Z\PYZus{}err}\PY{p}{,}
+    \PY{n}{rr\PYZus{}lyrae}\PY{o}{.}\PY{n}{z\PYZus{}mag}\PY{p}{,}
+    \PY{n}{rr\PYZus{}lyrae}\PY{o}{.}\PY{n}{z\PYZus{}mag\PYZus{}err}\PY{p}{,}
+    \PY{o}{*}\PY{o}{*}\PY{n}{z\PYZus{}band\PYZus{}kwargs}
+\PY{p}{)}
+
+\PY{n}{rr\PYZus{}lyrae}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+   Name     RA(deg)   DEC(deg)  Period(d)  i\_mag  z\_mag    A\_i    A\_z       Z  \textbackslash{}
+0  RRL1  189.570323 -40.939879   0.389918  20.92  20.86  0.192  0.146  0.0001
+1  RRL2  189.633635 -40.878072   0.422481  20.88  20.83  0.203  0.155  0.0001
+2  RRL3  189.584351 -41.101214   0.735898  20.67  20.59  0.177  0.135  0.0001
+
+     Z\_err  i\_mag\_err  z\_mag\_err  Period\_err   log\_d\_i  log\_d\_i\_err   log\_d\_z  \textbackslash{}
+0  0.00001       0.03       0.03        0.01  4.741731     0.071321  4.729462
+1  0.00001       0.03       0.03        0.01  4.740942     0.068136  4.732484
+2  0.00001       0.03       0.03        0.01  4.748831     0.054291  4.746906
+
+   log\_d\_z\_err
+0     0.081105
+1     0.076786
+2     0.057062
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{print\PYZus{}results}\PY{p}{(}\PY{n}{log\PYZus{}dist}\PY{p}{,} \PY{n}{log\PYZus{}dist\PYZus{}err}\PY{p}{,} \PY{n}{varname}\PY{p}{)}\PY{p}{:}
+    
+    \PY{n}{dist} \PY{o}{=} \PY{l+m+mi}{10}\PY{o}{*}\PY{o}{*}\PY{n}{log\PYZus{}dist}
+    \PY{n}{dist\PYZus{}err} \PY{o}{=} \PY{n}{log\PYZus{}dist\PYZus{}err} \PY{o}{*} \PY{n}{dist}\PY{o}{/}\PY{n}{log\PYZus{}dist}
+    
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{fr}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZdl{}}\PY{l+s+si}{\PYZob{}}\PY{n}{varname}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdl{} = }\PY{l+s+si}{\PYZob{}}\PY{n}{dist}\PY{o}{/}\PY{l+m+mf}{1e3}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ \PYZdl{}}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{pm\PYZdl{} }\PY{l+s+si}{\PYZob{}}\PY{n}{dist\PYZus{}err}\PY{o}{/}\PY{l+m+mf}{1e3}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ kpc}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{print\PYZus{}results}\PY{p}{(}\PY{n}{rr\PYZus{}lyrae}\PY{o}{.}\PY{n}{log\PYZus{}d\PYZus{}z}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{rr\PYZus{}lyrae}\PY{o}{.}\PY{n}{log\PYZus{}d\PYZus{}z\PYZus{}err}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{d\PYZus{}z}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{print\PYZus{}results}\PY{p}{(}\PY{n}{rr\PYZus{}lyrae}\PY{o}{.}\PY{n}{log\PYZus{}d\PYZus{}i}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{rr\PYZus{}lyrae}\PY{o}{.}\PY{n}{log\PYZus{}d\PYZus{}i\PYZus{}err}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{d\PYZus{}i}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+\$d\_z\$ = 54.49 \$\textbackslash{}pm\$ 0.82 kpc
+\$d\_i\$ = 55.44 \$\textbackslash{}pm\$ 0.75 kpc
+    \end{Verbatim}
+
+    \subsubsection{Problem 2 Discussion}\label{problem-2-discussion}
+
+The full results of the distance calculations for these three RR Lyrae
+stars are shown in the table above. Since I compute the distance in both
+z-band and i-band independently, we get two measurements of the
+distance. These measurements, which I get by averaging the log distance
+results, are consistent within uncertainties and give a distance of
+\(d\sim (55\pm1) kpc\).
+
+    \subsection{Problem 3}\label{problem-3}
+
+Black Hole Accretion Time Scales As a mass m of gas falls into a black
+hole, at most 0.1mc2 is likely to emerge as radiation; the rest is
+swallowed by the black hole. Show that the Eddington luminosity for a
+black hole of mass M is equivalent to 2×10−9 M c2 yr−1. Explain why we
+expect the black hole's mass to grow by at least a factor of e every 5 ×
+107 years.
+
+We start by deriving the eddington luminosity in a typical way
+
+\begin{equation}
+F_g = F_{rad}
+\end{equation}
+
+\begin{equation}
+\frac{G M m_p}{r^2} = \frac{ \sigma_T L_{edd} }{ 4 \pi c r^2 }
+\end{equation}
+
+Solving for \(L_{edd}\)
+
+\begin{equation}
+L_{edd} = \frac{4\pi G m_p}{c \sigma_T} Mc^2$
+\end{equation}
+
+Or in terms of years
+
+\begin{equation}
+L_{edd} = \frac{1.261\times10^8 \pi G m_p}{c \sigma_T} \frac{M c^2}{yr}
+\end{equation}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{sec\PYZus{}to\PYZus{}year} \PY{o}{=} \PY{l+m+mi}{3600} \PY{o}{*} \PY{l+m+mi}{24} \PY{o}{*} \PY{l+m+mi}{365} \PY{o}{*} \PY{n}{u}\PY{o}{.}\PY{n}{s} \PY{o}{/} \PY{n}{u}\PY{o}{.}\PY{n}{yr}
+\PY{c+c1}{\PYZsh{} print(f\PYZdq{}\PYZob{}sec\PYZus{}to\PYZus{}year*4:.2e\PYZcb{}\PYZdq{})}
+
+\PY{n}{res\PYZus{}factor} \PY{o}{=} \PY{l+m+mi}{4}\PY{o}{*}\PY{n}{sec\PYZus{}to\PYZus{}year} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{pi} \PY{o}{*} \PY{n}{c}\PY{o}{.}\PY{n}{G} \PY{o}{*} \PY{n}{c}\PY{o}{.}\PY{n}{m\PYZus{}p} \PY{o}{/} \PY{p}{(}\PY{n}{c}\PY{o}{.}\PY{n}{c} \PY{o}{*} \PY{n}{c}\PY{o}{.}\PY{n}{sigma\PYZus{}T}\PY{p}{)}
+\PY{n}{res\PYZus{}factor}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{17}{}
+    
+    $2.2182837 \times 10^{-9} \; \mathrm{\frac{1}{yr}}$
+
+    
+
+    Using the above calculations
+
+\begin{equation}
+L_{edd} = 2.22\times10^{-9} Mc^2 yr^{-1}$
+\end{equation}
+
+We can also write a mass accretion rate
+
+\begin{equation}
+\dot{M}_{edd} = \frac{L_{edd}}{\epsilon c^2} = \frac{2.22\times10^{-9} M}{\epsilon} yr^{-1}
+\end{equation}
+
+We are given \(\epsilon = 0.1\) in the problem giving an equation
+
+\begin{equation}
+\dot{M}_{edd} = 2.22\times10^{-8} M yr^{-1}
+\end{equation}
+
+Integrating the mass from \(M_0 \rightarrow eM_0\) and from
+\(t=0 \rightarrow t=\tau\) for an e-folding time \(\tau\) gives
+
+\begin{equation}
+\int_{M_0}^{e M_0} \dot{M}_{edd} dM = 2.22\times10^{-8}  yr^{-1} \int^{\tau}_{0} M dt
+\end{equation}
+
+Assuming an exponential growth from \(M_0 \rightarrow eM_0\) then we
+have a functional form \(M = M_0 e^{t/\tau}\)
+
+\begin{equation}
+M_0 (e-1) = 2.22\times10^{-8}  M_0 yr^{-1} \int^{\tau}_{0} e^{t/\tau} dt
+\end{equation}
+
+\begin{equation}
+M_0 (e-1) = 2.22\times10^{-8} M_0 yr^{-1} \tau (e - 1)
+\end{equation}
+
+Simplifying gives a timescale
+
+\begin{equation}
+\tau = \frac{yr}{2.22\times10^{-8}} = 4.5\times10^7 yr
+\end{equation}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{p}{(}\PY{l+m+mi}{1}\PY{o}{/}\PY{l+m+mf}{2.22e\PYZhy{}8}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s2}{.2e}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ yr}\PY{l+s+s2}{\PYZdq{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+'4.50e+07 yr'
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \subsection{Problem 4}\label{problem-4}
+
+Closed Box Enrichment In a scenario where stars are made from gas that
+is initially free of metals, so Z(t=0)=0, what is the mean metal
+abundance of stars once all of the gas is gone?
+
+\textbf{My Solution}
+
+The average stellar metalicity is defined as
+
+\begin{equation}
+<z_s> = \frac{M_z}{M_s}
+\end{equation}
+
+Where \(M_z\) is the mass of the metals and \(M_s\) is the stellar mass.
+At some time t, when \(M_g = 0\) (ie all the gas was used up to make
+stars), we know that \(M_{tot} = M_s\) giving
+
+\begin{equation}
+<z_s> = \frac{M_z}{M_s}
+\end{equation}
+
+For an outer shell on the star \(\delta M_s\),
+
+\begin{equation}
+M_z = \int_0^t z(t) \delta M_s
+\end{equation}
+
+Changing variables to \(M_g\)
+
+\begin{equation}
+M_z = -\int_{M_{tot}}^0 z(M_g) \delta M_g
+\end{equation}
+
+Using the equation for \(z(M_g)\) derived in class gives an integral
+
+\begin{equation}
+M_z = P \int_{M_{tot}}^0 \ln\left(\frac{M_g}{M_{tot}}\right) \delta M_g
+\end{equation}
+
+\begin{equation}
+M_z = P \left[ M_g \left( \ln\frac{M_g}{M_{tot}} - 1 \right) \right]^0_{M_{tot}}
+\end{equation}
+
+\begin{equation}
+M_z = P \left[ 0 + M_g\right]
+\end{equation}
+
+\begin{equation}
+M_z = P ~ M_g 
+\end{equation}
+
+Substituting this back into the equation for \(<z_s>\) gives
+
+\begin{equation}
+\boxed{<z_s> = P}
+\end{equation}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
