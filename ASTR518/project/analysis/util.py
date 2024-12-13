@@ -31,12 +31,12 @@ class Kuiper:
 
     # "static" variables
     gain = 3.1 * u.electron/u.adu
-    electron_to_photons:u.Quantity = 1 *u.photon/u.electron
-        
+    throughput = 0.8578 # assumed from Bok
+    quantum_efficiency = 0.7 # assumed from QE curve
     def __init__(self, aperture_radius:int=5):
         self.aperture_radius = aperture_radius
         self.npix = np.pi*aperture_radius**2
-    
+        self.electron_to_photons = 1/(self.throughput*self.quantum_efficiency)
 class CustomCCDData(CCDData):
     
     def show_image(self, ax=None, fig=None, **kwargs):
@@ -166,3 +166,35 @@ def single_flat_calib_and_combine(files, filter_name, combined_darks, exptime):
     )
     
     return combined_flat
+
+# this list is modified from the OTTER code I've written to find data for transients
+# https://github.com/astro-otter/otter/blob/main/src/otter/util.py#L731
+VIZIER_LARGE_CATALOGS = [
+    "AC2000.2",
+    "AKARI",
+    "ASCC-2.5",
+    "B/DENIS",
+    "CMC14",
+    "Gaia-DR1",
+    "GLIMPSE",
+    "GSC-ACT",
+    "GSC1.2",
+    "GSC2.2",
+    "GSC2.3",
+    "HIP",
+    "HIP2",
+    "IRAS",
+    "NOMAD1",
+    "PanSTARRS-DR1",
+    "PGC",
+    "Planck-DR1",
+    "PPMX",
+    "PPMXL",
+    "SDSS-DR12",
+    "SDSS-DR7",
+    "SDSS-DR9",
+    "Tycho-2",
+    "UKIDSS",
+    "USNO-A2",
+    "USNO-B1",
+]
