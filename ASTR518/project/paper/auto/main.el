@@ -6,18 +6,27 @@
    (TeX-add-to-alist 'LaTeX-provided-class-options
                      '(("aastex631" "")))
    (TeX-add-to-alist 'LaTeX-provided-package-options
-                     '(("graphicx" "")))
+                     '(("graphicx" "") ("amsmath" "") ("natbib" "")))
    (TeX-run-style-hooks
     "latex2e"
     "aastex631"
     "aastex63110"
-    "graphicx")
+    "graphicx"
+    "amsmath"
+    "natbib")
    (LaTeX-add-labels
+    "sec:method"
     "tab:obs"
     "fig:targ"
     "fig:aperture-counts"
+    "eq:f0"
+    "sec:res"
     "tab:res"
-    "fig:lc")
+    "sec:snr_theory"
+    "eq:snr"
+    "sec:snr_obs"
+    "fig:lc"
+    "sec:conclusion")
    (LaTeX-add-bibliographies))
  :latex)
 
