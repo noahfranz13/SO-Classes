@@ -149,15 +149,23 @@ def single_dark_calib_stack(exptime_key, files, combined_bias):
     
     return combined_dark
 
-def single_flat_calib_and_combine(files, filter_name, combined_darks, exptime):
+def single_flat_calib_and_combine(files, filter_name, combined_darks, combined_bias, exptime):
+
+    flats_bias_calib = [
+        ccdp.subtract_bias(
+            CustomCCDData.read(file), 
+            combined_bias
+        ) 
+        for file in files.flat_files[filter_name]
+    ]
     
     flats_calib = [
         ccdp.subtract_dark(
-            CustomCCDData.read(file), 
+            data, 
             combined_darks, 
             dark_exposure=exptime, 
             data_exposure=exptime,
-        ) for file in files.flat_files[filter_name]
+        ) for data in flats_bias_calib
     ]
     
     combined_flat = ccdp.combine(

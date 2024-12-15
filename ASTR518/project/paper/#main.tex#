@@ -3,6 +3,7 @@
 
 % imported packages
 \usepackage{graphicx}
+\usepackage{amsmath}
 
 % reset commands to set the line spacing
 \renewcommand{\baselinestretch}{1.5}
@@ -76,9 +77,25 @@ We convert the sum of the counts from the target plus background to electrons us
 
 To estimate the background signal, we use an annulus aperture centered on the target coordinates and with an inner radius of 5'' and outer radius of 10''. We chose to use an annulus to estimate the background because, by visual inspection of the images, the background rate varies by $\sim300$ counts ($\sim25\%$) across the image. This is likely because the target was near the setting moon which created a gradient of background illumination. Therefore, we want a local estimate of the background rather than a global one when estimating it to subtract it from the target counts. After integrating over the counts in the annulus, we take the average to find the background counts per pixel. We then subtract the background counts, multiplied by the area of the target aperture, from the target aperture counts to find the signal coming just from the target itself. We follow the same procedure as with the target aperture to convert from ADU to electrons and photons. The background estimation and subtraction results are in Table \ref{tab:res}.
 
-Once we have a background subtracted signal, we need to convert from photon counts to physical units. To do this, we query the ViZieR data service for Johnson/Cousins magnitudes in our field of view. We use the synthetic Johnson/Cousins magnitudes generated from the Gaia BP and RP mean spectra of the sources \citep{gaiadr3,gaiadr3_syntphot} (VizieR catalog I/360/syntphot).
+Once we have a background subtracted signal, we need to convert from photon counts to physical units. To do this, we query the ViZieR data service for Johnson/Cousins magnitudes in our field of view. We follow the same procedure as used for the target for each of these stars in the field of view: 1) place an aperture the same size as the target aperture over each of these sources and find the sum of the counts; 2) Find and subtract the background using an annulus with the same dimensions as used for the target; and 3) Convert from ADU to electrons and photons. The aperture placed on each of these foreground stars is shown as a blue circle in Figure \ref{fig:targ}. Each of these foreground stars has synthetic Johnson/Cousins magnitudes generated from the Gaia BP and RP mean spectra of the sources \citep{gaiadr3,gaiadr3_syntphot} (VizieR catalog I/360/syntphot). Note that we choose to use the Johnson/Cousins filter system since it is very similar to the Harris and Bessell filters but a more common standard. This, of course, introduces a level of systematic uncertainty into our magnitude calculation but this is negligible compared to the large uncertainties on our flux calculations (for example, see Figure \ref{fig:lc}). From these synthetic magnitudes, we find the zero point, $f_0$ of each filter using equation \ref{eq:f0},
 
+\begin{align}
+  f_{0,\gamma} = f_\gamma \times 10^{0.4 * m_\lambda},\label{eq:f0}
+\end{align}
 
+where $f_\gamma$ is the photon count flux and $m_\lambda$ is the synthetic magnitude of the source in a given filter.
+
+We take the median of the computed zero points from each of these foreground stars to find a single zero point for the Mont4k detector. We choose to use the median to make our zero point calculation robust to outliers like variable stars or possible contaminating galaxies. The calculated zero points in photon counts are listed in Table \ref{tab:res}. Using the computed zero points we calculate the magnitude for each filter of our source using the standard flux-magnitude equation,
+
+\begin{align}
+  m_\lambda = -2.5\log_{10}\left(\frac{f_\gamma}{f_{\gamma,0}}\right),
+\end{align}
+
+where the variables have the same meaning as equation \ref{eq:f0}. We compute the uncertainty in these magnitudes using standard error propagation on the noise in the photon count flux,
+
+\begin{align}
+  \sigma_m = 
+\end{align}
 
 \subsection{Lightcurve Modeling}
 

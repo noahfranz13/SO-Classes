@@ -13,8 +13,11 @@
     "aastex63110"
     "graphicx")
    (LaTeX-add-labels
-    "fig:aperture-counts"
+    "tab:obs"
     "fig:targ"
-    "tab:res"))
+    "fig:aperture-counts"
+    "tab:res"
+    "fig:lc")
+   (LaTeX-add-bibliographies))
  :latex)
 
