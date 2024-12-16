@@ -5,6 +5,33 @@
 \providecommand{\doeprint}[1]{\href{http://ascl.net/#1}{\nolinkurl{http://ascl.net/#1}}}
 \providecommand{\doarXiv}[1]{\href{https://arxiv.org/abs/#1}{\nolinkurl{https://arxiv.org/abs/#1}}}
 
+\bibitem[{{Astropy Collaboration} {et~al.}(2022){Astropy Collaboration},
+  {Price-Whelan}, {Lim}, {Earl}, {Starkman}, {Bradley}, {Shupe}, {Patil},
+  {Corrales}, {Brasseur}, {N{\"o}the}, {Donath}, {Tollerud}, {Morris},
+  {Ginsburg}, {Vaher}, {Weaver}, {Tocknell}, {Jamieson}, {van Kerkwijk},
+  {Robitaille}, {Merry}, {Bachetti}, {G{\"u}nther}, {Aldcroft},
+  {Alvarado-Montes}, {Archibald}, {B{\'o}di}, {Bapat}, {Barentsen},
+  {Baz{\'a}n}, {Biswas}, {Boquien}, {Burke}, {Cara}, {Cara}, {Conroy},
+  {Conseil}, {Craig}, {Cross}, {Cruz}, {D'Eugenio}, {Dencheva}, {Devillepoix},
+  {Dietrich}, {Eigenbrot}, {Erben}, {Ferreira}, {Foreman-Mackey}, {Fox},
+  {Freij}, {Garg}, {Geda}, {Glattly}, {Gondhalekar}, {Gordon}, {Grant},
+  {Greenfield}, {Groener}, {Guest}, {Gurovich}, {Handberg}, {Hart},
+  {Hatfield-Dodds}, {Homeier}, {Hosseinzadeh}, {Jenness}, {Jones}, {Joseph},
+  {Kalmbach}, {Karamehmetoglu}, {Ka{\l}uszy{\'n}ski}, {Kelley}, {Kern},
+  {Kerzendorf}, {Koch}, {Kulumani}, {Lee}, {Ly}, {Ma}, {MacBride}, {Maljaars},
+  {Muna}, {Murphy}, {Norman}, {O'Steen}, {Oman}, {Pacifici}, {Pascual},
+  {Pascual-Granado}, {Patil}, {Perren}, {Pickering}, {Rastogi}, {Roulston},
+  {Ryan}, {Rykoff}, {Sabater}, {Sakurikar}, {Salgado}, {Sanghi}, {Saunders},
+  {Savchenko}, {Schwardt}, {Seifert-Eckert}, {Shih}, {Jain}, {Shukla}, {Sick},
+  {Simpson}, {Singanamalla}, {Singer}, {Singhal}, {Sinha}, {Sip{\H{o}}cz},
+  {Spitler}, {Stansby}, {Streicher}, {{\v{S}}umak}, {Swinbank}, {Taranu},
+  {Tewary}, {Tremblay}, {Val-Borro}, {Van Kooten}, {Vasovi{\'c}}, {Verma}, {de
+  Miranda Cardoso}, {Williams}, {Wilson}, {Winkel}, {Wood-Vasey}, {Xue},
+  {Yoachim}, {Zhang}, {Zonca}, \& {Astropy Project
+  Contributors}}]{astropy:2022}
+{Astropy Collaboration}, {Price-Whelan}, A.~M., {Lim}, P.~L., {et~al.} 2022,
+  \apj, 935, 167, \dodoi{10.3847/1538-4357/ac7c74}
+
 \bibitem[{{Blagorodnova} {et~al.}(2017){Blagorodnova}, {Gezari}, {Hung},
   {Kulkarni}, {Cenko}, {Pasham}, {Yan}, {Arcavi}, {Ben-Ami}, {Bue}, {Cantwell},
   {Cao}, {Castro-Tirado}, {Fender}, {Fremling}, {Gal-Yam}, {Ho}, {Horesh},
@@ -13,6 +40,21 @@
   {Wozniak}}]{iPTF}
 {Blagorodnova}, N., {Gezari}, S., {Hung}, T., {et~al.} 2017, \apj, 844, 46,
   \dodoi{10.3847/1538-4357/aa7579}
+
+\bibitem[{Bradley {et~al.}(2024)Bradley, Sip{\H o}cz, Robitaille, Tollerud,
+  Vin{\'{\i}}cius, Deil, Barbary, Wilson, Busko, Donath, G{\"u}nther, Cara,
+  Lim, Me{\ss}linger, Burnett, Conseil, Droettboom, Bostroem, Bray, Bratholm,
+  Jamieson, Ginsburg, Barentsen, Craig, Pascual, Rathi, Perrin, Morris, \&
+  Perren}]{photutils}
+Bradley, L., Sip{\H o}cz, B., Robitaille, T., {et~al.} 2024, astropy/photutils:
+  1.13.0, 1.13.0,  Zenodo, \dodoi{10.5281/zenodo.12585239}
+
+\bibitem[{Craig {et~al.}(2017)Craig, Crawford, Seifert, Robitaille, Sip{\H
+  o}cz, Walawender, Vin{\'{\i}}cius, Ninan, Droettboom, Youn, Tollerud, Bray,
+  Walker, Janga, Stotts, G{\"u}nther, Rol, Bach, Bradley, Deil, Price-Whelan,
+  Barbary, Horton, Schoenell, Heidt, Gasdia, Nelson, \& Streicher}]{ccdproc}
+Craig, M., Crawford, S., Seifert, M., {et~al.} 2017, astropy/ccdproc:
+  v1.3.0.post1, \dodoi{10.5281/zenodo.1069648}
 
 \bibitem[{{Donley} {et~al.}(2002){Donley}, {Brandt}, {Eracleous}, \&
   {Boller}}]{donley2002}
@@ -117,6 +159,14 @@
 {Gezari}, S., {Chornock}, R., {Rest}, A., {et~al.} 2012, \nat, 485, 217,
   \dodoi{10.1038/nature10990}
 
+\bibitem[{Harris {et~al.}(2020)Harris, Millman, van~der Walt, Gommers,
+  Virtanen, Cournapeau, Wieser, Taylor, Berg, Smith, Kern, Picus, Hoyer, van
+  Kerkwijk, Brett, Haldane, del R{\'{i}}o, Wiebe, Peterson,
+  G{\'{e}}rard-Marchant, Sheppard, Reddy, Weckesser, Abbasi, Gohlke, \&
+  Oliphant}]{numpy}
+Harris, C.~R., Millman, K.~J., van~der Walt, S.~J., {et~al.} 2020, Nature, 585,
+  357, \dodoi{10.1038/s41586-020-2649-2}
+
 \bibitem[{{Hills}(1975)}]{hills1975}
 {Hills}, J.~G. 1975, \nat, 254, 295, \dodoi{10.1038/254295a0}
 
@@ -129,6 +179,11 @@
 {Holoien}, T. W.~S., {Auchettl}, K., {Tucker}, M.~A., {et~al.} 2020, \apj, 898,
   161, \dodoi{10.3847/1538-4357/ab9f3d}
 
+\bibitem[{{Lang} {et~al.}(2010){Lang}, {Hogg}, {Mierle}, {Blanton}, \&
+  {Roweis}}]{lang2010}
+{Lang}, D., {Hogg}, D.~W., {Mierle}, K., {Blanton}, M., \& {Roweis}, S. 2010,
+  \AJ, 137, 1782
+
 \bibitem[{{Mockler} {et~al.}(2019){Mockler}, {Guillochon}, \&
   {Ramirez-Ruiz}}]{Mockler2019}
 {Mockler}, B., {Guillochon}, J., \& {Ramirez-Ruiz}, E. 2019, \apj, 872, 151,
@@ -139,6 +194,10 @@
   {Padilla-Gonzalez}, {Pellegrino}, \& {Andrews}}]{Newsome2024}
 {Newsome}, M., {Arcavi}, I., {Howell}, D.~A., {et~al.} 2024, arXiv e-prints,
   arXiv:2406.11972, \dodoi{10.48550/arXiv.2406.11972}
+
+\bibitem[{pandas~development team(2020)}]{pandas-zenodo}
+pandas~development team, T. 2020, pandas-dev/pandas: Pandas, latest,  Zenodo,
+  \dodoi{10.5281/zenodo.3509134}
 
 \bibitem[{{Rees}(1988)}]{rees1988}
 {Rees}, M.~J. 1988, \nat, 333, 523, \dodoi{10.1038/333523a0}
@@ -172,5 +231,10 @@
   {Soumagnac}}]{vanVelzen2021}
 {van Velzen}, S., {Gezari}, S., {Hammerstein}, E., {et~al.} 2021, \apj, 908, 4,
   \dodoi{10.3847/1538-4357/abc258}
+
+\bibitem[{{W}es {M}c{K}inney(2010)}]{pandas-ds}
+{W}es {M}c{K}inney. 2010, in {P}roceedings of the 9th {P}ython in {S}cience
+  {C}onference, ed. {S}t\'efan van~der {W}alt \& {J}arrod {M}illman, 56 -- 61,
+  \dodoi{10.25080/Majora-92bf1922-00a}
 
 \end{thebibliography}

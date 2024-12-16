@@ -1,50 +1,54 @@
-This is BibTeX, Version 0.99d (TeX Live 2022/dev/Debian)
+This is BibTeX, Version 0.99d (TeX Live 2023)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: aasjournal.bst
 Database file #1: main.bib
 Warning--entry type for "gaiadr3_syntphot" isn't style-file defined
 --line 1 of file main.bib
+Warning--entry type for "photutils" isn't style-file defined
+--line 484 of file main.bib
+Warning--entry type for "pandas-zenodo" isn't style-file defined
+--line 635 of file main.bib
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
-You've used 15 entries,
+You've used 22 entries,
             3168 wiz_defined-function locations,
-            768 strings with 20295 characters,
-and the built_in function-call counts, 14349 in all, are:
-= -- 535
-> -- 2273
-< -- 4
-+ -- 755
-- -- 772
-* -- 1789
-:= -- 3027
-add.period$ -- 15
-call.type$ -- 15
-change.case$ -- 74
-chr.to.int$ -- 15
-cite$ -- 15
-duplicate$ -- 245
-empty$ -- 409
-format.name$ -- 784
-if$ -- 2518
+            817 strings with 26272 characters,
+and the built_in function-call counts, 19979 in all, are:
+= -- 792
+> -- 3078
+< -- 6
++ -- 1021
+- -- 1047
+* -- 2456
+:= -- 4178
+add.period$ -- 22
+call.type$ -- 22
+change.case$ -- 106
+chr.to.int$ -- 22
+cite$ -- 22
+duplicate$ -- 369
+empty$ -- 618
+format.name$ -- 1065
+if$ -- 3542
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 14
-newline$ -- 53
-num.names$ -- 60
-pop$ -- 76
+missing$ -- 17
+newline$ -- 74
+num.names$ -- 89
+pop$ -- 116
 preamble$ -- 1
-purify$ -- 74
+purify$ -- 106
 quote$ -- 0
-skip$ -- 210
+skip$ -- 313
 stack$ -- 0
-substring$ -- 260
-swap$ -- 0
+substring$ -- 370
+swap$ -- 8
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 135
+type$ -- 198
 warning$ -- 0
-while$ -- 52
+while$ -- 75
 width$ -- 0
-write$ -- 168
-(There was 1 warning)
+write$ -- 245
+(There were 3 warnings)

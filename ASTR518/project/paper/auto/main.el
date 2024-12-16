@@ -6,14 +6,17 @@
    (TeX-add-to-alist 'LaTeX-provided-class-options
                      '(("aastex631" "")))
    (TeX-add-to-alist 'LaTeX-provided-package-options
-                     '(("graphicx" "") ("amsmath" "") ("natbib" "")))
+                     '(("graphicx" "") ("amsmath" "") ("natbib" "") ("longtable" "")))
    (TeX-run-style-hooks
     "latex2e"
     "aastex631"
     "aastex63110"
     "graphicx"
     "amsmath"
-    "natbib")
+    "natbib"
+    "longtable")
+   (TeX-add-symbols
+    "AJ")
    (LaTeX-add-labels
     "sec:method"
     "tab:obs"
