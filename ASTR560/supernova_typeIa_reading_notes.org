@@ -14,7 +14,94 @@ NOTE This is a note
 #+END_COMMENT
 
 * Gallagher & Starrfield 1978
-** NOTE 
+
+** NOTE Go through the definition of a Nova (red box on first page)
+** NOTE Pre- and post- novae
+   - prenovae compared to postnovae studies show that novae are nondestructive
+   - postnovae show evidence for binary systems in some cases
+** NOTE Primary and Seconday Properties
+   - Period-luminosity relation in novae binaries?
+   - Spectra of primary shows a complex and poorly understood system
+   - Little is known about the masses of these objects. Has this changed?
+** NOTE Light Variations (Flickering)
+   - Some novae have periodic "flickering" on top of their normal light curve
+** NOTE Mass Transfer Rate and Luminosity
+   - ~10^-7 M_sun/yr
+   - L ~ 10^37 erg/s (so much smaller than a SN!)
+   - Mechanism that drives mass transfer is uncertain
+** NOTE The accretion disk
+   - Gas from secondary flows into accretion disk surrounding primary
+   - In dwarf novae, the bright spot in the accretion disk and the
+     disk itself are the primary sources of flux. In classical novae
+     the accretion onto the WD is the primary source of flux.
+** NOTE Outburst Light Curve
+   - Go through Figure 1 of nova V603 Aql. Discuss quasi-periodic fluctuations
+     in the decay tail.
+     - This portion of the LC are from interactions with CSM
+     - Probably from quasi-periodic fluctuations in the hydrostatic
+       remnant (which is convective)
+   - Figure 2: Very slow decaying nova HR Del. Note that the visible and
+     bolometric luminosity of nova do not have the same evolution. (Remind
+     everyone that we are at the forefront of UV and IR rocket launches)
+   - Figure 3: Moderate speed nova FH Ser 1970. IR "excess", probably due to dust,
+     see yellow boxed region on page right after figure
+** NOTE Outburst Spectrum
+   - Differences between fast and slow nova
+   - Pre-max spectrum has prominent absorption features, less emission
+   - Near-max spectrum shows emission from nebular shell and P-cygni profile
+     lines indicating that we are observing a shell (CSM or wind?)
+   - Post-max spectrum shows broad lines with high velocity
+** NOTE Early nova envelope evolution can be broken down into
+   1. Photosphere is expanding, reaching max radius around max brightness
+   2. Photosphere begins to collapse at a rate dependent on the speed
+      class of the nova
+** NOTE Interestingly, Nova speed class is likely related to the post-max mass-loss rate
+** NOTE Nova Theory
+   - energy generation is 1e45 - 1e46 erg over a few days
+   - Mass ejection processes: 1) shock ejection, 2) pressure ejection, and
+     3) radiation-pressure driven
+*** NOTE Nuclear reactions
+   - Mass dump onto the surface of the WD creates CNO cycle elements
+*** NOTE Slow Novae Model
+   - Material ejection by radiation pressure
+*** NOTE Fast Novae Model
+   - Luminosity of WD has little effect on the thermonuclear explosion
+   - Envelope mass strongly effects the outburst properties
+   - WD Mass effect is unclear
+   - Chemical Composition have strong effectgs on the outburst
+     velocity, mass ejection, and peak luminosity because it changes the
+     CNO enhancement
+** NOTE The "Hydrostatic Remnant"
+   - Only about 10% of the envelope is ejected, leaving behind most of
+     the WD envelope in hydrostatic equilibrium. This implies a high
+     luminosity remnant
+   - Observations show that the remnants "cool" back down to their prenovae
+     luminosity after a few years
+   - This discrepancy is probably because models didn't account for
+     "gravitational mixing"
+     
+** NOTE Postmaximum Phase
+*** NOTE Emission Lines
+   - Coronal lines present (??? this doesn't make sense)
+   - Ionized state at late times is difficult to understand
+     because a Stromgren-like analysis shows that the gas
+     should only ionize after about 40 days
+*** NOTE IR Observations
+   - Little was known at this time about the IR evolution
+   - 3 novae have been monitored in IR and show 3 different
+     behaviors
+   - Probably related to dust properties of CSM
+     
+** NOTE Ejecta Properties
+*** NOTE Mass
+   - Poorly understood, calculations are all over the place
+*** NOTE Abundances
+   - CNO are highly overabundant. They act like this is
+     surprising but I feel like it isn't?
+   - Predicted overabundance of Li, unclear if that is observed
+*** NOTE Spatial Structure
+   - Likely not spherical (four peaked line profiles)
+   - They act like this is surprising but I feel like it shouldn't be
 
 
 * Iben & Tutukov 1984
@@ -84,4 +171,119 @@ NOTE This is a note
 
 
 * Maguire 2016 (Handbook of Supernova)
-** NOTE 
+** NOTE Explosion Physics
+   - Observational verification that exploding star is a WD (Bloom+2012)
+   - Explosion mechanism is still controversial
+   - Essentially, exceeding Chadrasekhar mass starts CO fusion which
+     subsonically propagates through the WD. As the WD temp starts
+     rising, fusion can't be regulated and it turns into a runaway effect.
+   - Since all the mass is burnt and the initial mass is almost always
+     1.37 M_sun (chandrasekhar mass) then the emitted energy should be
+     constant
+** NOTE Power Source
+   - Radioactive decay of Iron group elements
+   - 0.3-0.8 M_sun of Fe56 is produced per SNIa, making them main
+     producers of Iron peak elements in universe
+   - Arnett's rule relates the mass of Ni56 to the peak luminosity of the LC
+** NOTE Observational Characteristics
+*** NOTE Discovery
+   - Large Optical All Sky Surveys with cadence of 2-5 days find ~100/yr
+*** NOTE Light Curves
+   - Show Fig. 1, talk about the two different slopes
+   - 
+** NOTE Light curve width-luminosity relation
+   - The light curve require a correction by "stretch"
+     which is essentially just correcting the maximum luminosity
+     based on this width-luminosity reation
+   - e.g. Fig. 2
+   - More luminous SNIa's have broader LCs
+   - Peak luminosity is directly related to the amount of Ni-56
+     synthesized in the explosion
+
+** NOTE Color-luminosity relation
+   - B-band luminosity and B-V color are related for brighter SNIa's
+   - Likely due to dust attentuation, doesn't this mean
+     it should be related to the amount of dust too???
+
+** NOTE Spectra
+   - Large line width due to the high velocity ejects
+
+*** NOTE Early-time spectra
+   - Intermediate mass elements show broad absorption features
+   - Fig. 3 shows an example of this for the earliest detected
+     SNIa spectra
+   - High velocity features are poorly understood, probably from
+     CSM interactions
+
+*** NOTE max-light spectra
+   - Redder than pre-peak spectra, still dominated by intermediate
+     mass elements
+   - Iron lines become visible ~week after max light
+   - Fig. 4: Most of the spectra are very similar near peak, major
+     difference is the strength of some of the lines
+
+*** NOTE Spectral-Luminosity Indicators
+   - Hints of spectral line indicators of luminosity with small
+     sample size, as sample size increased these did not hold
+
+*** NOTE Late-time spectra
+   - Dominated by forbidden Fe-group emission lines
+   - See Fig. 5 for an example
+
+** NOTE IR Properties
+   - IR light reveals a secondary bump in the light curve
+   - IR light curves at max light is relatively insensitive to Ni-56 mass
+   - NIR properties of the H-band LC are standard candles with only
+     a 4% deviation
+
+** NOTE UV Properties
+   - Similar to optical
+   - More dispersion in the properties of the UV light curves than
+     in the IR and optical
+
+** NOTE Gamma-ray observations
+   - Provide direct measurement of the amount of Ni-56 mass in the SNIa
+     See Fig. 6
+
+** NOTE Polarization
+   - Generally weak polarization signal meaning that the ejecta
+     is likely asymmetric
+
+** NOTE Host galaxies
+   - Wide variety of galaxies, star-forming and ellipticals
+   - There is some dependence on the luminosity of the SNIa
+     and the properties of the host
+
+** NOTE Single-degenerate progenitor model
+   - Primary WD accretes matter from a non-degenerate companion
+   - This is difficult to make happen in models because the
+     accretion rate must be finely tuned to avoid novae and disk
+     winds pushing away material
+   - More likely for novae than SNe
+
+** NOTE Double-degenerate progenitor model
+   - Possible tidal disruption and accretion of the less
+     massive WD onto the primary
+     - The main problem is that when this happens too
+       quick, there is a runaway and the CO WD turns into an
+       ONeMg WD
+   - Violent mergers happen when GW bring the smaller WD close
+     enough that it is simply accreted
+   - Double detenation occurs when a surface detonation of
+     Helium triggers the carbon detonation, tearing apart
+     the star
+   - Head on collision between two WDs
+
+** NOTE Progenitor Signatures
+   - Very little observational evidence of the single-
+     degnerate case. Very constricting limits have
+     been placed on the amount of hydrogen in WDs
+   - CSM interactions aren't very helpful since a CSM is
+     produced in most of the cases
+   - No detection of Radio or X-ray emissio from SNIa
+     which probably means the outflowing ejecta is not
+     interacting with any CSM. Although radio observations
+     did rule out the single-degernate cases
+   - Progenitor direct detection has never been accomplished
+     See Fig. 7 for a little summary (although this is kinda
+     confusing
