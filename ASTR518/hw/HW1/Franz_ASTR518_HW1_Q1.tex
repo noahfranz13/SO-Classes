@@ -1,0 +1,75 @@
+\documentclass[12pt]{article}
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{mathalpha}
+\usepackage[caption=false]{subfig}
+\usepackage{fancyhdr}
+\usepackage[margin=1in, headsep=36pt]{geometry}
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage{natbib}
+\usepackage{longtable}
+
+\bibliographystyle{unsrtnat}
+
+\def\title{Homework 1}
+\def\author{Noah Franz}
+\def\duedate{Sept. 18, 2024}
+\def\class{ASTR518}
+
+\fancypagestyle{hdr}
+{
+    \fancyhead[L]{\fontsize{16}{18}\selectfont \author \\ Due Date: \duedate }
+    \fancyhead[R]{\fontsize{16}{18}\selectfont  \title \\ \class}
+}
+
+\begin{document}
+
+\thispagestyle{hdr}
+
+{\it \large Practice Science Motivation (1 page)}
+
+\begin{table}[!ht]
+    \centering
+    \caption{Summary of Subfields Supported by TDE Science}
+    \label{tab:motivation}
+    \begin{tabular}{p{4cm} p{3cm} p{8cm}}
+    \hline
+        Astronomical Subfield & Decadal Subsection & How TDE Observations are Useful \\
+        \hline
+        TDE Emission & B-Q2a & --- \\
+        Transients Powered by Black Holes & B-Q2a & Since TDEs are powered by Black Holes, they are directly applicable. \\
+        Multimessenger astronomy & B-DA8 & There has been some evidence of neutrino detections from nearby TDEs. \\
+        \hline \\ 
+        Galaxy Nuclei & D-Q4d & Radio observations of TDEs provide circumnuclear ($r < 1~\textrm{pc}$) contents and density profiles. \\
+        Black Holes & B-Q2a, B-Q4b, D-Q3b,  & TDEs provide measurement of the mass of a central SMBH independent of galaxy properties and scaling relations (e.g. M-$\sigma$). They also provide a means to discover and study the elusive intermediate mass black hole. \\
+        Shock Physics & B-Q2b & Radio observations of TDEs reveal the properties of the shock front as it propagates through the circumnuclear medium. \\
+        Jet Physics & B-Q2a, B-Q3a & Prompt radio observations of TDEs will capture the early-time jet evolution minutes to days after the initial launch. \\
+         \hline 
+    \end{tabular}
+\end{table}
+
+\indent A primary science goal of the 2023 Astronomy Decadal, and a personal interest of mine, is the continued prompt multiwavelength followup of transient events. These violent and explosive transient events provide a unique probe of high energy phenomenon and environments that are impossible to reproduce on the surface of the Earth. Of particular interest are tidal disruption events (TDEs). TDEs occur when a star approaches within the tidal radius of a supermassive black hole (SMBH) and is torn apart, releasing emission across the electromagnetic spectrum. Understanding the emission from TDEs on their own and how it relates to other transient emission is an open question in astronomy and a key focus of the 2023 Astronomy Decadal. The relevant Decadal subsections are listed in the first part of Table \ref{tab:motivation}.
+
+\indent Studying TDEs will not only further our understanding of them but also many other areas of astronomy. For instance, studying TDE emission provides a probe the SMBH properties, the sub-parsec galactic nuclei environment, jet evolution and fundamental physics, and shock physics. For instance, using radio observations of TDEs we are able to study the density and particle makeup of the previously quiescent galactic nuclei. A summary of areas of astronomy probed by TDE observations, as well as the relevant Atronomy 2020 Decadel (sub)sections corresponding to each of these areas, is given in Table \ref{tab:motivation}. Overall, this makes multiwavelength observations of TDEs necessary to further our fundamental understanding of high energy, dense astronomical environments. 
+
+\indent In particular, as described in Table \ref{tab:motivation}, prompt radio/millimeter observations of TDEs allow us to study the early evolution of jets. As the jets evolve outwards, they shock the previously quiescent circumnuclear medium, producing synchrotron emission visible in the radio and millimeter. Fitting a \textit{complete} spectral energy distribution of TDEs allows us to extract properties of the jet, shock front, and ambient circumnuclear medium. Since this SED normally peaks around 1-10 GHz (depending on the time of the observation), observations with sensitive telescopes like the Very Large Array (VLA) and Atacama Large Millimeter Array (ALMA) necessary to study TDE radio/millimeter emission and further our understanding of jet evolution. A list of recently radio bright TDEs is given in Table \ref{tab:tdes} as examples of objects that require followup. Although, for a true study of this nature, we would need ``Target of Opportunity" (ToO) observations within days after the initial optical or X-ray detection.    
+\begin{longtable}{l c c c p{4.5cm}}
+    
+    % \centering \\
+    \caption{Sample of Radio Bright TDEs for Observations} \\
+    \label{tab:tdes} \\
+     
+     \hline \\
+     IAU Name & RA [hours] & Declination [degree] & Redshift & Approximate Flux Density at 6GHz [$\mu$Jy] \\
+     \hline \\
+     AT2022dyt & 10:00:08.008 & +26:27:38.57 & 0.072 & 75 \\
+     AT2022wtn & 23:23:23.778 & +10:41:07.99	& 0.049 & 300 \\
+     AT2021sdu & 01:11:23.924 & +50:34:29.67 & 0.059 & 75 \\
+     AT2020zso & 22:22:17.130 & -07:15:59.08 & 0.061 & 150 \\
+     AT2018cqh & 02:33:46.930 & -01:01:28.38 & ---\footnote{No redshift publicly available for AT2018cqh on the Transient Name Server (TNS).} & $10^5$\\
+     AT2018hyz & 10:06:50.871 & +01:41:34.08 & 0.04573 & $10^5$\\
+     \hline \\
+\end{longtable}
+
+\end{document}

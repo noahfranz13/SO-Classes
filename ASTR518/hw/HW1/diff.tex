@@ -1,0 +1,217 @@
+\documentclass[12pt]{article}
+%DIF LATEXDIFF DIFFERENCE FILE
+%DIF DEL Franz_ASTR518_HW1_Q1.tex         Mon Dec 16 10:41:49 2024
+%DIF ADD Franz_ASTR518_HW1_Q1_Edits.tex   Mon Dec 16 10:54:10 2024
+\usepackage{graphicx}
+\usepackage{amsmath, amssymb}
+\usepackage{mathalpha}
+\usepackage[caption=false]{subfig}
+\usepackage{fancyhdr}
+\usepackage[margin=1in, headsep=36pt]{geometry}
+\usepackage{hyperref}
+\usepackage{cancel}
+\usepackage{natbib}
+\usepackage{longtable}
+
+\bibliographystyle{unsrtnat}
+
+\def\title{Homework 1}
+\def\author{Noah Franz}
+\def\duedate{Sept. 18, 2024}
+\def\class{ASTR518}
+
+\fancypagestyle{hdr}
+{
+    \fancyhead[L]{\fontsize{16}{18}\selectfont \author \\ Due Date: \duedate }
+    \fancyhead[R]{\fontsize{16}{18}\selectfont  \title \\ \class}
+}
+%DIF PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%DIF UNDERLINE PREAMBLE %DIF PREAMBLE
+\RequirePackage[normalem]{ulem} %DIF PREAMBLE
+\RequirePackage{color}\definecolor{RED}{rgb}{1,0,0}\definecolor{BLUE}{rgb}{0,0,1} %DIF PREAMBLE
+\providecommand{\DIFaddtex}[1]{{\protect\color{blue}\uwave{#1}}} %DIF PREAMBLE
+\providecommand{\DIFdeltex}[1]{{\protect\color{red}\sout{#1}}}                      %DIF PREAMBLE
+%DIF SAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddbegin}{} %DIF PREAMBLE
+\providecommand{\DIFaddend}{} %DIF PREAMBLE
+\providecommand{\DIFdelbegin}{} %DIF PREAMBLE
+\providecommand{\DIFdelend}{} %DIF PREAMBLE
+\providecommand{\DIFmodbegin}{} %DIF PREAMBLE
+\providecommand{\DIFmodend}{} %DIF PREAMBLE
+%DIF FLOATSAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddFL}[1]{\DIFadd{#1}} %DIF PREAMBLE
+\providecommand{\DIFdelFL}[1]{\DIFdel{#1}} %DIF PREAMBLE
+\providecommand{\DIFaddbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFaddendFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelendFL}{} %DIF PREAMBLE
+%DIF HYPERREF PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFadd}[1]{\texorpdfstring{\DIFaddtex{#1}}{#1}} %DIF PREAMBLE
+\providecommand{\DIFdel}[1]{\texorpdfstring{\DIFdeltex{#1}}{}} %DIF PREAMBLE
+\newcommand{\DIFscaledelfig}{0.5}
+%DIF HIGHLIGHTGRAPHICS PREAMBLE %DIF PREAMBLE
+\RequirePackage{settobox} %DIF PREAMBLE
+\RequirePackage{letltxmacro} %DIF PREAMBLE
+\newsavebox{\DIFdelgraphicsbox} %DIF PREAMBLE
+\newlength{\DIFdelgraphicswidth} %DIF PREAMBLE
+\newlength{\DIFdelgraphicsheight} %DIF PREAMBLE
+% store original definition of \includegraphics %DIF PREAMBLE
+\LetLtxMacro{\DIFOincludegraphics}{\includegraphics} %DIF PREAMBLE
+\newcommand{\DIFaddincludegraphics}[2][]{{\color{blue}\fbox{\DIFOincludegraphics[#1]{#2}}}} %DIF PREAMBLE
+\newcommand{\DIFdelincludegraphics}[2][]{% %DIF PREAMBLE
+\sbox{\DIFdelgraphicsbox}{\DIFOincludegraphics[#1]{#2}}% %DIF PREAMBLE
+\settoboxwidth{\DIFdelgraphicswidth}{\DIFdelgraphicsbox} %DIF PREAMBLE
+\settoboxtotalheight{\DIFdelgraphicsheight}{\DIFdelgraphicsbox} %DIF PREAMBLE
+\scalebox{\DIFscaledelfig}{% %DIF PREAMBLE
+\parbox[b]{\DIFdelgraphicswidth}{\usebox{\DIFdelgraphicsbox}\\[-\baselineskip] \rule{\DIFdelgraphicswidth}{0em}}\llap{\resizebox{\DIFdelgraphicswidth}{\DIFdelgraphicsheight}{% %DIF PREAMBLE
+\setlength{\unitlength}{\DIFdelgraphicswidth}% %DIF PREAMBLE
+\begin{picture}(1,1)% %DIF PREAMBLE
+\thicklines\linethickness{2pt} %DIF PREAMBLE
+{\color[rgb]{1,0,0}\put(0,0){\framebox(1,1){}}}% %DIF PREAMBLE
+{\color[rgb]{1,0,0}\put(0,0){\line( 1,1){1}}}% %DIF PREAMBLE
+{\color[rgb]{1,0,0}\put(0,1){\line(1,-1){1}}}% %DIF PREAMBLE
+\end{picture}% %DIF PREAMBLE
+}\hspace*{3pt}}} %DIF PREAMBLE
+} %DIF PREAMBLE
+\LetLtxMacro{\DIFOaddbegin}{\DIFaddbegin} %DIF PREAMBLE
+\LetLtxMacro{\DIFOaddend}{\DIFaddend} %DIF PREAMBLE
+\LetLtxMacro{\DIFOdelbegin}{\DIFdelbegin} %DIF PREAMBLE
+\LetLtxMacro{\DIFOdelend}{\DIFdelend} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFaddbegin}{\DIFOaddbegin \let\includegraphics\DIFaddincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFaddend}{\DIFOaddend \let\includegraphics\DIFOincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFdelbegin}{\DIFOdelbegin \let\includegraphics\DIFdelincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFdelend}{\DIFOaddend \let\includegraphics\DIFOincludegraphics} %DIF PREAMBLE
+\LetLtxMacro{\DIFOaddbeginFL}{\DIFaddbeginFL} %DIF PREAMBLE
+\LetLtxMacro{\DIFOaddendFL}{\DIFaddendFL} %DIF PREAMBLE
+\LetLtxMacro{\DIFOdelbeginFL}{\DIFdelbeginFL} %DIF PREAMBLE
+\LetLtxMacro{\DIFOdelendFL}{\DIFdelendFL} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFaddbeginFL}{\DIFOaddbeginFL \let\includegraphics\DIFaddincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFaddendFL}{\DIFOaddendFL \let\includegraphics\DIFOincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFdelbeginFL}{\DIFOdelbeginFL \let\includegraphics\DIFdelincludegraphics} %DIF PREAMBLE
+\DeclareRobustCommand{\DIFdelendFL}{\DIFOaddendFL \let\includegraphics\DIFOincludegraphics} %DIF PREAMBLE
+%DIF COLORLISTINGS PREAMBLE %DIF PREAMBLE
+\RequirePackage{listings} %DIF PREAMBLE
+\RequirePackage{color} %DIF PREAMBLE
+\lstdefinelanguage{DIFcode}{ %DIF PREAMBLE
+%DIF DIFCODE_UNDERLINE %DIF PREAMBLE
+  moredelim=[il][\color{red}\sout]{\%DIF\ <\ }, %DIF PREAMBLE
+  moredelim=[il][\color{blue}\uwave]{\%DIF\ >\ } %DIF PREAMBLE
+} %DIF PREAMBLE
+\lstdefinestyle{DIFverbatimstyle}{ %DIF PREAMBLE
+	language=DIFcode, %DIF PREAMBLE
+	basicstyle=\ttfamily, %DIF PREAMBLE
+	columns=fullflexible, %DIF PREAMBLE
+	keepspaces=true %DIF PREAMBLE
+} %DIF PREAMBLE
+\lstnewenvironment{DIFverbatim}{\lstset{style=DIFverbatimstyle}}{} %DIF PREAMBLE
+\lstnewenvironment{DIFverbatim*}{\lstset{style=DIFverbatimstyle,showspaces=true}}{} %DIF PREAMBLE
+%DIF END PREAMBLE EXTENSION ADDED BY LATEXDIFF
+
+\begin{document}
+
+\thispagestyle{hdr}
+
+{\it \large Practice Science Motivation (1 page)}
+
+\DIFdelbegin %DIFDELCMD < \begin{table}[!ht]
+%DIFDELCMD <     \centering
+%DIFDELCMD <     %%%
+%DIFDELCMD < \caption{%
+{%DIFAUXCMD
+\DIFdelFL{Summary of Subfields Supported by TDE Science}}
+    %DIFAUXCMD
+%DIFDELCMD < \label{tab:motivation}
+%DIFDELCMD <     \begin{tabular}{p{4cm} p{3cm} p{8cm}}
+%DIFDELCMD <     \hline
+%DIFDELCMD <         %%%
+\DIFdelFL{Astronomical Subfield }%DIFDELCMD < & %%%
+\DIFdelFL{Decadal Subsection }%DIFDELCMD < & %%%
+\DIFdelFL{How TDE Observations are Useful }%DIFDELCMD < \\
+%DIFDELCMD <         \hline
+%DIFDELCMD <         %%%
+\DIFdelFL{TDE Emission }%DIFDELCMD < & %%%
+\DIFdelFL{B-Q2a }%DIFDELCMD < & %%%
+\DIFdelFL{--- }%DIFDELCMD < \\
+%DIFDELCMD <         %%%
+\DIFdelFL{Transients Powered by Black Holes }%DIFDELCMD < & %%%
+\DIFdelFL{B-Q2a }%DIFDELCMD < & %%%
+\DIFdelFL{Since TDEs are powered by Black Holes, they are directly applicable. }%DIFDELCMD < \\
+%DIFDELCMD <         %%%
+\DIFdelFL{Multimessenger astronomy }%DIFDELCMD < & %%%
+\DIFdelFL{B-DA8 }%DIFDELCMD < & %%%
+\DIFdelFL{There has been some evidence of neutrino detections from nearby TDEs. }%DIFDELCMD < \\
+%DIFDELCMD <         \hline \\ 
+%DIFDELCMD <         %%%
+\DIFdelFL{Galaxy Nuclei }%DIFDELCMD < & %%%
+\DIFdelFL{D-Q4d }%DIFDELCMD < & %%%
+\DIFdelFL{Radio observations of TDEs provide circumnuclear ($r < 1~\textrm{pc}$) contents and density profiles. }%DIFDELCMD < \\
+%DIFDELCMD <         %%%
+\DIFdelFL{Black Holes }%DIFDELCMD < & %%%
+\DIFdelFL{B-Q2a, B-Q4b, D-Q3b,  }%DIFDELCMD < & %%%
+\DIFdelFL{TDEs provide measurement of the mass of a central SMBH independent of galaxy properties and scaling relations (e.g. M-$\sigma$). They also provide a means to discover and study the elusive intermediate mass black hole. }%DIFDELCMD < \\
+%DIFDELCMD <         %%%
+\DIFdelFL{Shock Physics }%DIFDELCMD < & %%%
+\DIFdelFL{B-Q2b }%DIFDELCMD < & %%%
+\DIFdelFL{Radio observations of TDEs reveal the properties of the shock front as it propagates through the circumnuclear medium. }%DIFDELCMD < \\
+%DIFDELCMD <         %%%
+\DIFdelFL{Jet Physics }%DIFDELCMD < & %%%
+\DIFdelFL{B-Q2a, B-Q3a }%DIFDELCMD < & %%%
+\DIFdelFL{Prompt radio observations of TDEs will capture the early-time jet evolution minutes to days after the initial launch. }%DIFDELCMD < \\
+%DIFDELCMD <          \hline 
+%DIFDELCMD <     \end{tabular}
+%DIFDELCMD < \end{table}
+%DIFDELCMD < %%%
+\DIFdelend %DIF >  \begin{table}[!ht]
+%DIF >      \centering
+%DIF >      \caption{Summary of Subfields Supported by TDE Science}
+%DIF >      \label{tab:motivation}
+%DIF >      \begin{tabular}{p{4cm} p{3cm} p{8cm}}
+%DIF >      \hline
+%DIF >          Astronomical Subfield & Decadal Subsection & How TDE Observations are Useful \\
+%DIF >          \hline
+%DIF >          TDE Emission & B-Q2a & --- \\
+%DIF >          Transients Powered by Black Holes & B-Q2a & Since TDEs are powered by Black Holes, they are directly applicable. \\
+%DIF >          Multimessenger astronomy & B-DA8 & There has been some evidence of neutrino detections from nearby TDEs. \\
+%DIF >          \hline \\ 
+%DIF >          Galaxy Nuclei & D-Q4d & Radio observations of TDEs provide circumnuclear ($r < 1~\textrm{pc}$) contents and density profiles. \\
+%DIF >          Black Holes & B-Q2a, B-Q4b, D-Q3b,  & TDEs provide measurement of the mass of a central SMBH independent of galaxy properties and scaling relations (e.g. M-$\sigma$). They also provide a means to discover and study the elusive intermediate mass black hole. \\
+%DIF >          Shock Physics & B-Q2b & Radio observations of TDEs reveal the properties of the shock front as it propagates through the circumnuclear medium. \\
+%DIF >          Jet Physics & B-Q2a, B-Q3a & Prompt radio observations of TDEs will capture the early-time jet evolution minutes to days after the initial launch. \\
+%DIF >           \hline 
+%DIF >      \end{tabular}
+%DIF >  \end{table}
+
+\indent A primary science goal of the 2023 Astronomy Decadal \DIFdelbegin \DIFdel{, and a personal interest of mine, }\DIFdelend is the continued prompt multiwavelength followup of transient events. These violent and explosive transient events provide a unique probe of high energy phenomenon and environments that are impossible to reproduce on the surface of the Earth. Of particular interest are tidal disruption events (TDEs\DIFaddbegin \DIFadd{; 2023 Decadel, Subsection B-Q2a}\DIFaddend ). TDEs occur when a star approaches within the tidal radius of a supermassive black hole (SMBH) and is torn apart, releasing emission across the electromagnetic spectrum. Understanding the emission from TDEs on their own and how it relates to other transient emission is an open question in astronomy and a key focus of the 2023 Astronomy Decadal.
+\DIFdelbegin \DIFdel{The relevant Decadal subsections are listed in the first part of Table \ref{tab:motivation}.
+}\DIFdelend 
+
+\indent Studying TDEs will not only further our understanding of them but also many other areas of astronomy. For instance, studying TDE emission provides a probe the SMBH properties, the sub-parsec galactic nuclei environment, jet evolution and fundamental physics, and shock physics. For instance, using radio observations of TDEs we are able to study the density and particle makeup of the previously quiescent galactic nuclei \DIFaddbegin \DIFadd{at a sub-parsec scale(2023 Decadel, Section D-Q4d). Studying the density and structure of the galactic nuclei on such small scales will help us better understand both SMBH accretion and how it affects the evolution and structure of galaxies as a while}\DIFaddend . \DIFdelbegin \DIFdel{A summary of areas of astronomy probed by TDE observations, as well as the relevant Atronomy 2020 Decadel (sub)sections corresponding to each of these areas, is given in Table \ref{tab:motivation}. }\DIFdelend Overall, this makes multiwavelength observations of TDEs necessary to further our fundamental understanding of high energy, dense astronomical environments. 
+
+\indent In particular, \DIFdelbegin \DIFdel{as described in Table \ref{tab:motivation}, }\DIFdelend prompt radio/millimeter observations of TDEs allow us to study the early evolution of jets \DIFaddbegin \DIFadd{(2023 Decadel, Subsections B-Q2a and B-Q3a)}\DIFaddend . As the jets evolve outwards, they shock the previously quiescent circumnuclear medium, producing synchrotron emission visible in the radio and millimeter. Fitting a \textit{complete} spectral energy distribution of TDEs allows us to extract properties of the jet, shock front, and ambient circumnuclear medium. Since this SED normally peaks around 1-10 GHz (depending on the time of the observation), observations with sensitive telescopes like the Very Large Array (VLA) and Atacama Large Millimeter Array (ALMA) necessary to study TDE radio/millimeter emission and further our understanding of jet evolution. A list of recently radio bright TDEs is given in Table \ref{tab:tdes} as examples of objects that require followup. Although, for a true study of this nature, we would need ``Target of Opportunity" (ToO) observations within days after the initial optical or X-ray detection.
+\begin{longtable}{l c c c p{4.5cm}}    
+    \DIFdelbegin %DIFDELCMD < 
+
+%DIFDELCMD <     %%%
+%DIF <  \centering \\
+    \DIFdelend \DIFaddbegin \centering \\
+    \DIFaddend \caption{Sample of Radio Bright TDEs for Observations} \\
+    \label{tab:tdes} \\
+
+     \hline \\
+     IAU Name & RA [hours] & Declination [degree] & Redshift & Approximate Flux Density at 6GHz [$\mu$Jy] \\
+     \hline \\
+     AT2022dyt & 10:00:08.008 & +26:27:38.57 & 0.072 & 75 \\
+     AT2022wtn & 23:23:23.778 & +10:41:07.99	& 0.049 & 300 \\
+     AT2021sdu & 01:11:23.924 & +50:34:29.67 & 0.059 & 75 \\
+     AT2020zso & 22:22:17.130 & -07:15:59.08 & 0.061 & 150 \\
+     AT2018cqh & 02:33:46.930 & -01:01:28.38 & ---\footnote{No redshift publicly available for AT2018cqh on the Transient Name Server (TNS).} & $10^5$\\
+     AT2018hyz & 10:06:50.871 & +01:41:34.08 & 0.04573 & $10^5$\\
+     \hline \\
+\end{longtable}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: LaTeX
+%%% TeX-master: t
+%%% End:
